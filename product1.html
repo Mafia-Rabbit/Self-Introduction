@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>Raby Lab</title>
+  <meta name="description" content="テキストテキストテキストテキストテキストテキストテキストテキス">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="img/header/Rabbit.png">
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/dracula.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script>
+    // ハイライトを実行
+    hljs.initHighlightingOnLoad();
+  </script>
+</head>
+
+<body>
+  <header id="header">
+    <h1 class="site-title">
+      <a href="index.html"><img src="img/header/RABY_LAB.png" alt="Sneakers"></a>
+    </h1>
+
+    <nav id="navi">
+      <ul class="nav-menu">
+        <li><a href="index.html">COLLECTION OF WORKS</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="self-introduction1.html">INTRODUCTION</a></li>
+        <li><a href="html/about.html">ABOUT</a></li>
+        <li><a href="html/company.html">COMPANY</a></li>
+      </ul>
+      <ul class="nav-sns">
+        <li><a href="https://twitter.com/" target="_blank">Twitter</a></li>
+        <li><a href="https://www.facebook.com/" target="_blank">facebook</a></li>
+        <li><a href="https://www.instagram.com/" target="_blank">instagram</a></li>
+      </ul>
+    </nav>
+
+    <div class="toggle_btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div id="mask"></div>
+  </header>
+
+  <main id="main">
+    <!-- 作った作品のプログラミング詳細 -->
+    <section id="explanation">
+      <h2 class="sec-title">FletとArduinoを用いたLチカ</h2>
+      <section class="centered-section">
+        <img class="title_img" src="img/item/flet_python_led.JPG" alt="">
+      </section>
+      <section class="centered-section">
+        <h3 class="ther-title">1.OVERVIEW</h3>
+        <p class="overview-text">
+          今回はArduinoとPythonを繋ぎPythonでLチカを制御できるようにします。
+          なぜ、ハードウェアにボタンをつけてON/OFFを制御しないのか？なぜC言語だけで完結させないのか？
+          Pythonのライブラリが多いのとコマンド送信という概念を学びたかったからです。実際にPythonのプログラムを書いてみましょう
+        </p>
+      </section>
+      <section class="centered-section">
+        <h3 class="ther-title">2.PYTHON CODING</h3>
+        <h4 class="fort-title">～環境構築～</h4>
+        <p class="overview-text">
+          はじめにPython仮想環境を作成しましょう。Pythonの仮想環境は,powershellやコマンドプロンプトで
+          「<span style="color:orange">python -m venv [仮想環境名]</span>」のように記述して実行すことで作成することができます。
+          私は以下のように書きます。
+        </p>
+
+        <div class="code-container">
+          <span class="file-name">powershellコマンド</span>
+          <pre><code>
+python -m venv ArdiunoENV
+          </code></pre>
+        </div>
+        <p class="overview-text">
+          次に仮想環境を起動させて仮想環境内に必要なライブラリのインストールを行います。
+          コマンドプロンプト上で「<span style="color: orange;">.\[仮想環境名]\Scripts\activate</span>」
+          と打つことで実行できます。
+        </p>
+        <div class="code-container">
+          <span class="file-name">powershellコマンド</span>
+          <pre><code>
+.\ArdiunoENV\Scripts\activate
+          </code></pre>
+        </div>
+        <p class="overview-text">
+          ※ . は作成した仮想環境へのパスを表しており、今回はプロジェクト直下に
+          venv環境があることを想定しています。コマンドを実行している場所にvenv
+          環境がない場合は . の部分のパス適宜書き換えてください。
+        </p>
+        <img class="main_text_img" src="img/product1_img/activ.png" alt="">
+
+        <p class="overview-text">
+          仮想環境を起動させることができたらPythonライブラリーの「<span style="color: orange;">Flet</span>」
+          と「<span style="color: orange;">pyserial</span>」をインストールしましょう。Pythonのライブラリーを
+          インストールする際には「<span style="color: orange;">pip install [ライブラリー名]</span>」と記述することで
+          実行することができます。実際に以下のコードパワーシェルに記述して実行してみましょう。
+        </p>
+
+        <div class="code-container">
+          <span class="file-name">powershellコマンド</span>
+          <pre><code>
+pip install flet
+pip install pyseri
+          </code></pre>
+        </div>
+
+        <h4 class="fort-title">～コード内容～</h4>
+        <h5 class="fifth-title">◇コードインポート</h5>
+        <p class="overview-text">
+          flet（ft）と serial.tools.list_ports をインポートしています。
+          前者は GUI アプリケーションの作成に使用し、後者はシリアルポートにアクセスするために使用します。<br>
+          <span class="code-block">flet</span>：PythonでGUIを持つウェブやデスクトップアプリケーションを作成するためのライブラリです。<br>
+          <span class="code-block">serial.tools.list_ports</span>：<span class="code-block">pyserial</span>
+          ライブラリの一部で、利用可能なシリアルポートを一覧表示するのに役立ちます。
+        </p>
+
+
+        <div class="code-container">
+          <span class="file-name">LED_flet.py</span>
+          <pre class="code-py"><code>
+import flet as ft
+import serial.tools.list_ports
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇main 関数</h5>
+        <p class="overview-text">
+          main 関数を定義し、引数 page を受け取ります。これは flet のページオブジェクトです。<br>
+          <span class="code-block">page: ft.Page</span>：アプリケーション内のすべてのUI要素を含むメインコンテナです。
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.py</span>
+          <pre><code>
+def main(page: ft.Page):
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇ページ設定</h5>
+        <p class="overview-text">
+          ページのタイトルとウィンドウのサイズを設定します。<br>
+          <span class="code-block">page.title</span>：ウィンドウのタイトルを設定します。<br>
+          <span class="code-block">page.window.width</span> と <span
+            class="code-block">page.window.height</span>：ウィンドウの初期寸法を設定します。<br>
+          <span class="code-block">page.window.min_width</span> と <span
+            class="code-block">page.window.min_height</span>: ウィンドウの最小寸法を設定します。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.py</span>
+          <pre><code>
+  page.title = "Click Button LED"
+  page.window.width = 300
+  page.window.height = 400
+  page.window.min_width = 300
+  page.window.min_height = 400
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇update_ports 関数</h5>
+        <p class="overview-text">
+          update_ports 関数を定義しています。これはシリアルポートをリストし、
+          ドロップダウンメニューのオプションとして設定します。
+        </p>
+        <p class="overview-text">
+          <span class="code-block">update_ports(e)</span>："ポート更新"ボタンがクリックされたときに呼び出される関数です。<br>
+          <span class="code-block">ports = serial.tools.list_ports.comports()</span>：利用可能なすべてのシリアルポートを一覧表示します。<br>
+          <span class="code-block">portsList = [str(port.device) for port in ports]</span>：デバイス名を抽出します。<br>
+          <span class="code-block">ports_dropdown.options = [ft.dropdown.Option(port) for port in
+            portsList]</span>：ドロップダウンメニューを利用可能なポートで更新します。<br>
+          <span class="code-block">page.update()</span>：更新されたドロップダウンオプションを表示するためにページをリフレッシュします。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.py</span>
+          <pre><code>
+def update_ports(e):
+  ports = serial.tools.list_ports.comports()
+  portsList = [str(port.device) for port in ports]  # COMポート名だけを取得
+  ports_dropdown.options = [ft.dropdown.Option(port) for port in portsList]
+  page.update()
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇connect_serial 関数</h5>
+        <p class="overview-text">
+          connect_serial 関数を定義しています。
+          選択された COM ポートに接続し、成功または失敗のステータスを更新します。
+        </p>
+        <p class="overview-text">
+          <span class="code-block">connect_serial(e)</span>："接続"ボタンがクリックされたときに呼び出される関数です。<br>
+          <span class="code-block">comport = ports_dropdown.value</span>：ドロップダウンから選択されたポートを取得します。<br>
+          <span class="code-block">serialInst.port = com_port</span>：シリアルポートを設定します。<br>
+          <span class="code-block">serialInst.baudrate = 9600</span>：通信のためのボーレートを設定します。<br>
+          <span class="code-block">serialInst.open()</span>：シリアルポート接続を開きます。<br>
+          <span class="code-block">status_label.value</span>：接続状態を表示するためのラベルを更新します。<br>
+          <span class="code-block">except Exception as ex</span>：接続中に発生する例外をキャッチして表示します。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.py</span>
+          <pre><code>
+def connect_serial(e):
+  com_port = ports_dropdown.value
+  serialInst.port = com_port
+  serialInst.baudrate = 9600
+  try:
+      serialInst.open()
+      status_label.value = f"{com_port} に接続しました"
+  except Exception as ex:
+      status_label.value = f"接続に失敗しました: {ex}"
+  page.update()
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇send_command 関数</h5>
+        <p class="overview-text">
+          send_command 関数を定義しています。入力されたコマンドを送信し、ステータスラベルに結果を表示します。
+        </p>
+        <p class="overview-text">
+          <span class="code-block">send_command(e)</span>："コマンド送信"ボタンがクリックされたときに呼び出される関数です。<br>
+          <span class="code-block">command = command_input.value</span>：テキスト入力からコマンドを取得します。<br>
+          <span class="code-block">if serialInst.is_open</span>：シリアルポートが開かれているかをチェックします。<br>
+          <span class="code-block">serialInst.write(command.encode('utf-8'))</span>：コマンドをシリアルポートに送信します。<br>
+          <span class="code-block">if command == 'exit'</span>：コマンドが 'exit' の場合、シリアルポートを閉じます。<br>
+          <span class="code-block">status_label.value</span>：コマンドの状態を表示するためのラベルを更新します。<br>
+          <span class="code-block">page.update()</span>：更新された状態を表示するためにページをリフレッシュします。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.py</span>
+          <pre><code>
+def send_command(e):
+  command = command_input.value
+  if serialInst.is_open:
+      serialInst.write(command.encode('utf-8'))
+      if command == 'exit':
+          serialInst.close()
+          status_label.value = "切断されました"
+      else:
+          status_label.value = f"コマンドを送信しました: {command}"
+  else:
+      status_label.value = "シリアルポートが接続されていません"
+  page.update()
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇コンポーネントの初期化</h5>
+        <p class="overview-text">
+          シリアルポートインスタンス、ドロップダウンメニュー、ボタン、テキストフィールド、ステータスラベルを初期化しています。
+        </p>
+        <p class="overview-text">
+          <span class="code-block">serialInst</span>：新しいシリアル接続オブジェクトを初期化します。<br>
+          <span class="code-block">ports_dropdown</span>：シリアルポートを選択するためのドロップダウンを作成します。<br>
+          <span class="code-block">refresh_button</span>：利用可能なシリアルポートのリストを更新するためのボタン。<br>
+          <span class="code-block">connect_button</span>：選択されたシリアルポートに接続するためのボタン。<br>
+          <span class="code-block">command_input</span>：Arduinoコマンドを入力するためのテキストフィールド。<br>
+          <span class="code-block">send_button</span>：Arduinoにコマンドを送信するためのボタン。<br>
+          <span class="code-block">status_label</span>：接続およびコマンド状態を表示するためのラベル。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.py</span>
+          <pre><code>
+serialInst = serial.Serial()
+ports_dropdown = ft.Dropdown()
+refresh_button = ft.Button(text="ポート更新", on_click=update_ports)
+connect_button = ft.Button(text="接続", on_click=connect_serial)
+command_input = ft.TextField(label="Arduinoコマンド (ON/OFF/exit)")
+send_button = ft.Button(text="コマンド送信", on_click=send_command)
+status_label = ft.Text()
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇GUI コンポーネントの追加</h5>
+        <p class="overview-text">
+          ページに GUI コンポーネントを追加しています。
+        </p>
+        <p class="overview-text">
+          <span class="code-block">page.add(...)</span>：UI要素をページに追加し、アプリケーションウィンドウに表示させます。
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.py</span>
+          <pre><code>
+page.add(
+  ports_dropdown,
+  refresh_button,
+  connect_button,
+  command_input,
+  send_button,
+  status_label
+)
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇アプリケーションの起動</h5>
+        <p class="overview-text">
+          アプリケーションを起動し、main 関数をターゲットにしています。
+        </p>
+        <p class="overview-text">
+          <span class="code-block">ft.app(target=main)</span>Fletアプリケーションを実行し、エントリーポイントとして main 関数を開始します。
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.py</span>
+          <pre><code>
+ft.app(target=main)
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇完成版コード</h5>
+        <div class="code-container">
+          <details>
+            <summary><strong><span class="file-name-summa">LED_flet.py</span></strong></summary>
+            <pre><code>
+import flet as ft
+import serial.tools.list_ports
+
+def main(page: ft.Page):
+    page.title = "Click Button LED"
+    page.window.width = 300
+    page.window.height = 400
+    page.window.min_width = 300
+    page.window.min_height = 400
+
+    def update_ports(e):
+        ports = serial.tools.list_ports.comports()
+        portsList = [str(port.device) for port in ports]  # COMポート名だけを取得
+        ports_dropdown.options = [ft.dropdown.Option(port) for port in portsList]
+        page.update()
+    
+    def connect_serial(e):
+        com_port = ports_dropdown.value
+        serialInst.port = com_port
+        serialInst.baudrate = 9600
+        try:
+            serialInst.open()
+            status_label.value = f"{com_port} に接続しました"
+        except Exception as ex:
+            status_label.value = f"接続に失敗しました: {ex}"
+        page.update()
+    
+    def send_command(e):
+        command = command_input.value
+        if serialInst.is_open:
+            serialInst.write(command.encode('utf-8'))
+            if command == 'exit':
+                serialInst.close()
+                status_label.value = "切断されました"
+            else:
+                status_label.value = f"コマンドを送信しました: {command}"
+        else:
+            status_label.value = "シリアルポートが接続されていません"
+        page.update()
+    
+    serialInst = serial.Serial()
+    ports_dropdown = ft.Dropdown()
+    refresh_button = ft.Button(text="ポート更新", on_click=update_ports)
+    connect_button = ft.Button(text="接続", on_click=connect_serial)
+    command_input = ft.TextField(label="Arduinoコマンド (ON/OFF/exit)")
+    send_button = ft.Button(text="コマンド送信", on_click=send_command)
+    status_label = ft.Text()
+    
+    page.add(
+        ports_dropdown,
+        refresh_button,
+        connect_button,
+        command_input,
+        send_button,
+        status_label
+    )
+
+ft.app(target=main)</code></pre>
+          </details>
+
+        </div>
+        <h5 class="fifth-title">◇実行結果</h5>
+        <p class="overview-text">
+          プログラムを実行すると以下ののようなアプリケーションが起動します。
+          しかし、このままではパソコンにArdinoをつなげられていない上にスケッチをコンパイルしていないため
+          動きません。次はArduinoにコンパイルするためのプログラム(siketch)を書きましょう。
+        </p>
+        <img class="flet_gui" src="img/product1_img/flte/flet_GUI.png" alt="">
+      </section>
+
+      <section class="centered-section">
+
+        <h3 class="ther-title">3.ARDUINO CODING</h3>
+        <h4 class="fort-title">～コード内容～</h4>
+        <p class="overview-text">
+          このプログラムは、シリアル通信を使用してArduinoにコマンドを送信し、LEDを制御するものです。
+          2つのピンに接続されたLEDを点灯・消灯させるためのコードが記述されています。
+        </p>
+
+        <h5 class="fifth-title">◇変数宣言</h5>
+        <p class="overview-text">
+          <span class="code-block">const int redPin = 2;</span>：赤色LEDを接続するピンの番号を定義。const を使うことで、この値が変更されないことを示しています。<br>
+          <span class="code-block">const int greenPin = 4;</span>：緑色LEDを接続するピンの番号を定義。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.ino</span>
+          <pre><code>
+const int redPin = 4;
+const int greenPin = 2;
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇setup() 関数</h5>
+        <p class="overview-text">
+          <span class="code-block">Serial.begin(9600);</span>：シリアル通信を毎秒9600ビットで開始します。
+          ここで指定された9600はボーレート（通信速度）です。<br>
+          <span class="code-block">pinMode(greenPin, OUTPUT);</span>：<span
+            class="code-block">greenPin</span>（ピン4）を出力モードに設定します。<br>
+          <span class="code-block">pinMode(redPin, OUTPUT);</span>：<span
+            class="code-block">redPin</span>（ピン2）を出力モードに設定します。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.ino</span>
+          <pre><code>
+void setup() {
+  Serial.begin(9600);
+  pinMode(greenPin, OUTPUT);
+  pinMode(redPin, OUTPUT);
+}
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇loop() 関数</h5>
+        <p class="overview-text">
+          <span class="code-block">if (Serial.available() > 0)</span>
+          シリアル通信でデータが受信されたかどうかを確認します。データがある場合は <span class="code-block">Serial.available()</span>が0より大きくなります。<br>
+          <span class="code-block">String msg = Serial.readString();</span>：受信したデータを文字列として読み取ります。<span
+            class="code-block">msg</span>はその文字列データを保持する変数です。
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.ino</span>
+          <pre><code>
+void loop() {
+  if (Serial.available() > 0){
+    String msg = Serial.readString();
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇メッセージ処理</h5>
+        <p class="overview-text">
+          <span class="code-block">if (msg == "ON")</span>：受信メッセージが<span
+            class="code-block">"ON"</span>の場合、greenPin（緑のLED）を点灯（HIGH）させます。<br>
+          <span class="code-block">else if (msg == "OFF")</span>：受信メッセージが<span
+            class="code-block">"OFF"</span>の場合、greenPin（緑のLED）を消灯（LOW）させます。<br>
+          <span class="code-block">else</span>：それ以外のメッセージの場合、赤のLED(<span class="code-block">redPin</span>)を5回点滅させます。
+        </p>
+        <div class="code-container">
+          <span class="file-name">LED_flet.ino</span>
+          <pre><code>
+    if (msg == "ON"){
+      digitalWrite(greenPin, HIGH);
+    }
+    else if(msg == "OFF"){
+      digitalWrite(greenPin, LOW);
+    }
+    else {
+      for (int i = 0; i < 5; i++){
+        digitalWrite(redPin, HIGH);
+        delay(100);
+        digitalWrite(redPin, LOW);
+        delay(100);
+      }
+    }
+  }
+}
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇完成版コード</h5>
+        <div class="code-container">
+          <details>
+            <summary><strong><span class="file-name-summa">LED_flet.ino</span></strong></summary>
+            <pre><code>
+const int redPin = 4;
+const int greenPin = 2;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  pinMode(greenPin, OUTPUT);
+  pinMode(redPin, OUTPUT);
+}
+
+void loop() {
+  if (Serial.available() > 0){
+    String msg = Serial.readString();
+
+    if (msg == "ON"){
+      digitalWrite(greenPin, HIGH);
+    }
+    else if(msg == "OFF"){
+      digitalWrite(greenPin, LOW);
+    }
+
+    else {
+      for (int i = 0; i < 5; i++){
+        digitalWrite(redPin, HIGH);
+        delay(100);
+        digitalWrite(redPin, LOW);
+        delay(100);
+      }
+    }
+  }
+}
+            </code></pre>
+          </details>
+
+        </div>
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">4.HARDWARE DESIGN</h3>
+        <h4 class="fort-title">～LED制御回路～</h4>
+        <p class="overview-text">
+          シリアルモニターから「OK」と送信すると緑色のLEDが付きます。それ以外のコマンドを送信すると
+          赤色のLEDが点滅します。以下のパーツを使って回路を組んでみましょう。
+        </p>
+        <h5 class="fifth-title">◇使用パーツ</h5>
+        <img class="part-img" src="img/product1_img/flet_arduino_led.png" alt="">
+
+        <h4 class="fort-title">～手順～</h4>
+        <h5 class="fifth-title">◇ボードの準備</h5>
+        <p class="overview-text">
+          今回は私はArduino Unoボードを使用します。ボードをUSBケーブルでパソコンに接続し、電源を供給します。
+        </p>
+        <img class="part-img" src="img/product1_img/step1.png" alt="">
+
+        <h5 class="fifth-title">◇赤色LEDの接続</h5>
+        <ul class="overview-text">
+          <li>赤色LEDのアノード（長い端子）をArduinoのデジタルピン4に接続</li>
+          <li>赤色LEDのカソード（短い端子）を220Ωの抵抗を介してブレッドボードの-ラインに接続</li>
+        </ul>
+        <img class="part-img" src="img/product1_img/step2.png" alt="">
+
+        <h5 class="fifth-title">◇緑色LEDの接続</h5>
+        <ul class="overview-text">
+          <li>緑色LEDのアノード（長い端子）をArduinoのデジタルピン2に接続</li>
+          <li>緑色LEDのカソード（短い端子）を220Ωの抵抗を介してブレッドボードの-ラインに接続</li>
+        </ul>
+        <img class="part-img" src="img/product1_img/step3.png" alt="">
+
+        <h5 class="fifth-title">◇GNPピン接続</h5>
+        <ul class="overview-text">
+          <li>GNPピンとはマイコンで外部機器の制御や外部機器からの出力を取り込むために用います</li>
+          <li>ブレッドボードの-ラインをArduinoのGNPピンに接続</li>
+        </ul>
+        <img class="part-img" src="img/product1_img/step4.png" alt="">
+
+        <h5 class="fifth-title">◇回路の確認</h5>
+        <ul class="overview-text">
+          <li><span style="color: orange;">LEDの極性</span>: LEDにはアノード（正極）とカソード（負極）があり、極性が逆になっていると点灯しません。
+            LEDの長い端子（アノード）が正しいピンに接続されているか確認してください。</li>
+          <li><span style="color: orange;">抵抗の値と接続</span>: 抵抗が正しい値（220Ωなど）であり、正しい位置に接続されているか確認します。
+            抵抗の値が間違っていると、LEDが壊れる可能性があります。</li>
+          <li><span style="color: orange;">ジャンプワイヤーの接続</span>: ジャンパーワイヤーが正しいピンに接続され、
+            しっかりと差し込まれているか確認してください。緩んでいると接触不良が発生します。</li>
+          <li><span style="color: orange;">ショート回路の確認</span>: ブレッドボード上でピン同士が直接接触している部分がないか確認します。
+            ショート回路が発生すると、Arduinoや他の部品が損傷する可能性があります。</li>
+          <li><span style="color: orange;">Arduinoボードの接続</span>: Arduinoボードが正しく接続され、電源が入っているか確認してください。
+            接続が緩んでいると正常に動作しません。</li>
+        </ul>
+
+      </section>
+<!--EXECUTION-->>
+      <section class="centered-section">
+        <h3 class="ther-title">5.EXECUTION</h3>
+        <h5 class="fifth-title">◇コンパイル</h5>
+        <p class="overview-text">
+          Arduino IDEに書いたプログラムをArduinoにコンパイルしましょう。
+        </p>
+        <h5 class="fifth-title">◇GUI起動</h5>
+        <p class="overview-text">
+          Pythonプログラムを実行しましょう
+        </p>
+        <h4 class="fort-title">～操作方法～</h4>
+        <h5 class="fifth-title">◇ポート更新</h5>
+        <p class="overview-text">
+          プログラムを実行することができたら「<span style="color: orange;">ポート更新ボタン</span>」を押して
+          接続されているCOMポートの確認をしましょう。
+        </p>
+        <img class="flet_gui" src="img/product1_img/flte/paot_date.png" alt="">
+
+        <h5 class="fifth-title">◇ポート選択</h5>
+        <p class="overview-text">
+          ポート更新することができたら一番上にあるボックスをクリックして接続されているCOMポートクリックしてください
+          また、更新しても出ない場合は<span style="color: orange;">Arduinoとパソコンが繋がっていない</span>ことが考えられます。接続されているか確認しましょう
+        </p>
+        <img class="flet-gui-img" src="img/product1_img/flte/select2.png" alt="">
+
+        <h5 class="fifth-title">◇ポート接続</h5>
+        <p class="overview-text">
+          ポートに接続することができたらシリアル通信ができるように接続します。成功すると、
+          以下のように「<span style="color: orange;">COM〇〇に接続しました</span>」と
+          出力されます。
+        </p>
+        <img class="flet_gui" src="img/product1_img/flte/conect_port_ture.png" alt="">
+        <p class="overview-text">
+          接続に失敗すると以下のように「<span style="color: orange;">接続に失敗しました：（エラーメッセージ内容）</span>」と出力されます。
+        </p>
+        <img class="flet_gui" src="img/product1_img/flte/conect_port_false.png" alt="">
+
+        <h5 class="fifth-title">◇コマンド送信</h5>
+        <p class="overview-text">
+          実際にコマンドを送信しましょう。以下の画像のように入力ボックス大文字で「<span style="color: orange;">ON</span>」
+          と入力してみましょう。横の画像のように緑色のLEDが点灯すれば成功です。
+        </p>
+        <img class="flet-gui-img" src="img/product1_img/on.png" alt="">
+        <p class="overview-text">
+          次に、LEDを消灯する方法です。コマンド入力ボックスに「<span style="color: orange;">OFF</span>」
+          と入力しましょう。以下のように点灯していた緑色のLEDを消すことができたら成功です。
+        </p>
+        <img class="flet-gui-img" src="img/product1_img/off.png" alt="">
+        <p class="overview-text">
+          また、これら以外のコマンドを入力して送信する赤色のLEDが点滅します。試しに「test」と入力するとこのように
+          LEDが点滅します。
+        </p>
+        <img class="flet-gui-img" src="img/product1_img/test.png" alt="">
+        <p class="overview-text">
+          最後に「<span style="color: orange;">exit</span>」と入力すると、シリアル通信を切断することができます。
+          「exit」と入力した場合にも赤いLEDが点灯します。気になる人はプログラムを改造してみてください。
+        </p>
+        <img class="flet-gui-img" src="img/product1_img/exit.png" alt="">
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">6.END</h3>
+        <h5 class="end-title">楽しめましたでしょうか<br>これでこの作品は終わりです<br>お疲れさまでした。</h5>
+
+      </section>
+    </section>
+
+
+    <section id="contact">
+      <h2 class="sec-title">CONTACT</h2>
+      <div class="content">
+        <div class="contact-info">
+          <p>テキストテキストテキスト</p>
+          <p>
+            テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+            テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+            テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+          </p>
+          <p>
+            テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+            テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+            テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+          </p>
+        </div>
+
+        <div class="contact-form">
+          <form action="#">
+            <dl>
+              <dt><label for="name">Name:</label></dt>
+              <dd><input type="text" id="name" name="your-name"></dd>
+              <dt><label for="email">Mail:</label></dt>
+              <dd><input type="email" id="email" name="your-email"></dd>
+              <dt><label for="message">Message:</label></dt>
+              <dd><textarea id="message" name="your-message"></textarea></dd>
+            </dl>
+            <div class="button"><input type="submit" value="SEND"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="footer">
+    <p>&copy; Raby Lab</p>
+  </footer>
+</body>
+
+</html>

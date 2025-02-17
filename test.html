@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ポートフォリオサイト</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1em 0;
+    }
+
+    header h1 {
+      margin: 0.5em 0;
+    }
+
+    header p {
+      margin: 0.2em 0;
+    }
+
+    header a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    section {
+      padding: 2em;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h2 {
+      border-bottom: 2px solid #333;
+      padding-bottom: 0.5em;
+    }
+
+    h3 {
+      margin-top: 1em;
+      color: #333;
+    }
+
+    ul {
+      list-style-type: disc;
+      margin-left: 1.5em;
+    }
+
+    .work-item {
+      margin-bottom: 2em;
+    }
+
+    .work-item h3 {
+      margin-bottom: 0.5em;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>あなたの名前</h1>
+    <p>Webエンジニア</p>
+    <p>東京</p>
+    <p><a href="mailto:your.email@example.com">your.email@example.com</a></p>
+    <p><a href="https://yourblog.example.com/">yourblog.example.com</a></p>
+  </header>
+
+  <section id="skills">
+    <h2>スキルセット</h2>
+    <h3>フロントエンド</h3>
+    <ul>
+      <li>JavaScript</li>
+      <li>TypeScript</li>
+      <li>jQuery</li>
+      <li>Next.js</li>
+      <li>React & Redux</li>
+      <li>React Native</li>
+      <li>Webpack</li>
+      <li>HTMLコーディング</li>
+      <li>Tailwind CSS</li>
+      <li>レスポンシブデザイン</li>
+    </ul>
+    <h3>バックエンド</h3>
+    <ul>
+      <li>Node.js</li>
+      <li>Golang</li>
+      <li>PHP</li>
+      <li>GraphQL</li>
+    </ul>
+    <h3>ツール</h3>
+    <ul>
+      <li>Slack API</li>
+      <li>WordPress</li>
+      <li>VScode</li>
+      <li>GitHub</li>
+    </ul>
+  </section>
+
+  <section id="works">
+    <h2>制作物</h2>
+    <div class="work-item">
+      <h3>Reactチャットアプリ</h3>
+      <p>React、TypeScript、Reduxで構築された同期的なチャットアプリケーションです。チャットの基本機能に加え、メッセージへのリアクション機能があります。</p>
+    </div>
+    <div class="work-item">
+      <h3>JAMstackブログ</h3>
+      <p>Next.jsとヘッドレスCMSであるmicroCMSで構築されたブログサイトです。検索機能やページネーション機能、カテゴリ機能を自前で実装しています。</p>
+    </div>
+    <div class="work-item">
+      <h3>Slack連携勤怠ツール</h3>
+      <p>SlackとGoogleスプレッドシートを連携した勤怠ツールです。勤怠の打刻や勤怠の確認ができます。</p>
+    </div>
+    <div class="work-item">
+      <h3>WordPressのローカル開発環境構築</h3>
+      <p>WordPressのローカル開発環境を構築するためのDockerコンテナを作成しました。WordPressのテーマやプラグインの開発に役立ちます。</p>
+    </div>
+  </section>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+@charset "UTF-8";
+
+#explanation {
+  max-width: 1240px;
+  padding: 100px 16px 50px 16px;
+  margin: -50px auto 10px auto;
+}
+
+.title_img{
+  padding: 10%;
+  border-radius: 30%;
+}
+
+.ther-title {
+  font-size: 2.25rem;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.fort-title {
+  font-size: 2rem;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.fifth-title {
+  font-size: 1.5rem;
+  text-align: left;
+  padding: 0 0 0 5%;
+}
+
+.overview-text {
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: left;
+  padding: 0 10%;
+}
+
+.centered-section {
+  width: 80%; /* 幅を50%に設定 */
+  margin: 0 auto 20px; /* 左右のマージンを自動に設定して中央に配置 */
+  background-color: #ffffff; /* 背景色を設定 */
+  text-align: center; /* テキストを中央揃えに */
+  border-radius: 20px; /* 角を丸くする */
+  box-shadow: 0 0 10px rgb(0, 0, 0, 0.5); /* 影を追加 */
+}
+
+.pip-container {
+  text-align: left;
+}
+
+.code-container {
+  border-radius: 5px;
+  padding: 10px 10%;
+  margin-bottom: 20px;
+  text-align: left; /* 左揃え */
+}
+
+ul {
+  list-style-type: disc;
+  padding: 0;
+}
+
+#list-op {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.file-name {
+  background-color: #333;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 0;
+  display: inline-block;
+  position: relative;
+  top: 1px;
+}
+
+code {
+  border-radius: 0 10px 10px 10px;
+}
+
+.code-block{
+  font-family: 'Consolas', 'Courier New', monospace;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 0 5px;
+  border-radius: 5px;
+  display: inline-block;
+  font-weight: bold;
+  text-align: left;
+  margin: 10px 0 0 0;
+}
+
+pre.code-py{
+  color: inherit; /* フォントカラーは元のまま */
+  text-align: left; /* 左揃え */
+  overflow-x: auto; /* ⭐ */
+  -webkit-overflow-scrolling: touch; /* */
+  white-space: pre-wrap; /*はみ出たときに折り返す */
+}
+
+.file-name-summa {
+  background-color: #333;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 0;
+  display: inline-block;
+  position: relative;
+  top: 1px;
+}
+
+details summary {
+  list-style: none;
+}
+
+details[open] summary .file-name-summa{
+  list-style: none;
+  border-radius: 10px 10px 0 0;
+}
+
+.main_text_img{
+  padding: 5%;
+  border-radius: 10px;
+}
+
+.flet_gui {
+  border-radius: 10px;
+}
+
+.part-img {
+  padding: 5px;
+}
+
+.end-title {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.flet-gui-img {
+  border-radius: 10px;
+  padding: 5px;
+}
+
+
+
+@media screen and (max-width: 600px) {
+  .ther-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+}

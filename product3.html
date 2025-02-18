@@ -211,7 +211,7 @@ def connect_serial(e):
           最後に<span class="code-block">page.update()</span>でページを更新します
         </p>
         <div class="code-container">
-          <span class="file-name">LED_flet.py</span>
+          <span class="file-name">Dr_stone.py</span>
           <pre><code>
 def send_command(command):
   if serialInst.is_open:
@@ -243,7 +243,7 @@ def send_command(command):
           音声を認識できなかった場合、またはGoogle音声認識サービスにアクセスできなかった場合、適切なエラーメッセージを設定してページを更新します。<br>
         </p>
         <div class="code-container">
-          <span class="file-name">LED_flet.py</span>
+          <span class="file-name">Dr_stone.py</span>
           <pre><code>
 def start_listening(e):
   r = sr.Recognizer()
@@ -290,7 +290,7 @@ def start_listening(e):
           <span class="code-block">start_button</span>：音声認識を開始するボタン<br>
         </p>
         <div class="code-container">
-          <span class="file-name">LED_flet.py</span>
+          <span class="file-name">Dr_stone.py</span>
           <pre><code>
 serialInst = serial.Serial()
 ports_dropdown = ft.Dropdown()
@@ -312,7 +312,7 @@ start_button = ft.ElevatedButton(text="Start Listening", on_click=start_listenin
           <span class="code-block">page.add(...)</span>：UI要素をページに追加し、アプリケーションウィンドウに表示させます。
         </p>
         <div class="code-container">
-          <span class="file-name">LED_flet.py</span>
+          <span class="file-name">Dr_stone.py</span>
           <pre><code>
 page.add(
   ports_dropdown,
@@ -335,7 +335,7 @@ page.add(
           <span class="code-block">ft.app(target=main)</span>Fletアプリケーションを実行し、エントリーポイントとして main 関数を開始します。
         </p>
         <div class="code-container">
-          <span class="file-name">LED_flet.py</span>
+          <span class="file-name">Dr_stone.py</span>
           <pre><code>
 ft.app(target=main)
           </code></pre>
@@ -344,7 +344,7 @@ ft.app(target=main)
         <h5 class="fifth-title">◇完成版コード</h5>
         <div class="code-container">
           <details>
-            <summary><strong><span class="file-name-summa">LED_flet.py</span></strong></summary>
+            <summary><strong><span class="file-name-summa">Dr_stone.py</span></strong></summary>
             <pre><code>
 import flet as ft
 import serial.tools.list_ports

@@ -98,11 +98,12 @@ python -m venv ProductEnv
           venv環境があることを想定しています。コマンドを実行している場所にvenv
           環境がない場合は . の部分のパス適宜書き換えてください。
         </p>
-        <img class="main_text_img" src="img/product1_img/activ.png" alt="">
+        <img class="main_text_img" src="img/product3_img/venv.png" alt="">
 
         <p class="overview-text">
           仮想環境を起動させることができたらPythonライブラリーの「<span style="color: orange;">Flet</span>」
-          と「<span style="color: orange;">pyserial</span>」をインストールしましょう。Pythonのライブラリーを
+          ,「<span style="color: orange;">pyserial</span>」,「<span style="color: orange;">SpeechRecognition</span>」と
+          「<span style="color: orange;">PyAudio</span>」をインストールしましょう。Pythonのライブラリーを
           インストールする際には「<span style="color: orange;">pip install [ライブラリー名]</span>」と記述することで
           実行することができます。実際に以下のコードパワーシェルに記述して実行してみましょう。
         </p>
@@ -760,7 +761,7 @@ void loop()
           ポート更新することができたら一番上にあるボックスをクリックして接続されているCOMポートクリックしてください
           また、更新しても出ない場合は<span style="color: orange;">Arduinoとパソコンが繋がっていない</span>ことが考えられます。接続されているか確認しましょう
         </p>
-        <img class="flet_gui" src="img/product1_img/flte/select2.png" alt="">
+        <img class="flet_gui" src="img/product3_img/soft/step2~3.png" alt="">
 
         <h5 class="fifth-title">◇ポート接続</h5>
         <p class="overview-text">
@@ -768,33 +769,28 @@ void loop()
           以下のように「<span style="color: orange;">COM〇〇に接続しました</span>」と
           出力されます。
         </p>
-        <img class="flet_gui" src="img/product1_img/flte/conect_port_ture.png" alt="">
+        <img class="flet_gui" src="img/product3_img/soft/step3.png" alt="">
         <p class="overview-text">
           接続に失敗すると以下のように「<span style="color: orange;">接続に失敗しました：（エラーメッセージ内容）</span>」と出力されます。
         </p>
-        <img class="flet_gui" src="img/product1_img/flte/conect_port_false.png" alt="">
+        <img class="flet_gui" src="img/product3_img/soft/step4.png" alt="">
 
         <h5 class="fifth-title">◇コマンド送信</h5>
         <p class="overview-text">
-          実際にコマンドを送信しましょう。以下の画像のように入力ボックス大文字で「<span style="color: orange;">ON</span>」
-          と入力してみましょう。横の画像のように緑色のLEDが点灯すれば成功です。
+          実際にコマンドを送信しましょう。以下の画像のように入力ボックスに「<span style="color: orange;">10メートル 10秒</span>」
+          と入力してみましょう。横の画像のように10秒後に緑色のLEDが点灯すれば成功です。
         </p>
-        <img class="flet_gui" src="img/product1_img/on.png" alt="">
+        <img class="flet_gui" src="img/product3_img/soft/step5.png" alt="">
         <p class="overview-text">
-          次に、LEDを消灯する方法です。コマンド入力ボックスに「<span style="color: orange;">OFF</span>」
-          と入力しましょう。以下のように点灯していた緑色のLEDを消すことができたら成功です。
+          次に、「<span style="color: orange;">Start Listening</span>」ボタンを押してパソコンのマイクに向かって
+          「<span style="color: orange;">10メートル 10秒</span>」と言ってみましょう。
+          先ほどのようにLEDが10秒後に点灯すれば成功です。
         </p>
-        <img class="flet_gui" src="img/product1_img/off.png" alt="">
-        <p class="overview-text">
-          また、これら以外のコマンドを入力して送信する赤色のLEDが点滅します。試しに「test」と入力するとこのように
-          LEDが点滅します。
-        </p>
-        <img class="flet_gui" src="img/product1_img/test.png" alt="">
+        <img class="flet_gui" src="img/product3_img/soft/step6.png" alt="">
         <p class="overview-text">
           最後に「<span style="color: orange;">exit</span>」と入力すると、シリアル通信を切断することができます。
-          「exit」と入力した場合にも赤いLEDが点灯します。気になる人はプログラムを改造してみてください。
         </p>
-        <img class="flet_gui" src="img/product1_img/exit.png" alt="">
+        <img class="flet_gui" src="img/product3_img/soft/step7.png" alt="">
 
       </section>
 

@@ -79,7 +79,7 @@
         <div class="code-container">
           <span class="file-name">powershellコマンド</span>
           <pre><code>
-python -m venv ArdiunoENV
+python -m venv ProductEnv
           </code></pre>
         </div>
         <p class="overview-text">
@@ -90,7 +90,7 @@ python -m venv ArdiunoENV
         <div class="code-container">
           <span class="file-name">powershellコマンド</span>
           <pre><code>
-.\ArdiunoENV\Scripts\activate
+.\ProductEnv\Scripts\activate
           </code></pre>
         </div>
         <p class="overview-text">
@@ -111,7 +111,9 @@ python -m venv ArdiunoENV
           <span class="file-name">powershellコマンド</span>
           <pre><code>
 pip install flet
-pip install pyseri
+pip install pyserial
+pip install SpeechRecognition
+pip install PyAudio
           </code></pre>
         </div>
 
@@ -296,7 +298,7 @@ serialInst = serial.Serial()
 ports_dropdown = ft.Dropdown()
 refresh_button = ft.Button(text="ポート更新", on_click=update_ports)
 connect_button = ft.Button(text="接続", on_click=connect_serial)
-command_input = ft.TextField(label="Arduinoコマンド (ON/OFF/exit)")
+command_input = ft.TextField(label="Arduinoコマンド (～メートル ～秒)")
 send_button = ft.Button(text="コマンド送信", on_click=lambda e: send_command(command_input.value))
 status_label = ft.Text()
 output = ft.Text(value="なにか話してください ...", size=20)
@@ -351,7 +353,7 @@ import serial.tools.list_ports
 import speech_recognition as sr
 
 def main(page: ft.Page):
-  page.title = "Click Button LED with Voice Control"
+  page.title = "Dr_stone Petrification Ray"
   page.window.width = 300
   page.window.height = 400
   page.window.min_width = 300
@@ -417,7 +419,7 @@ def main(page: ft.Page):
   ports_dropdown = ft.Dropdown()
   refresh_button = ft.Button(text="ポート更新", on_click=update_ports)
   connect_button = ft.Button(text="接続", on_click=connect_serial)
-  command_input = ft.TextField(label="Arduinoコマンド (ON/OFF/exit)")
+  command_input = ft.TextField(label="Arduinoコマンド (～メートル ～秒)")
   send_button = ft.Button(text="コマンド送信", on_click=lambda e: send_command(command_input.value))
   status_label = ft.Text()
   output = ft.Text(value="なにか話してください ...", size=20)
@@ -446,7 +448,7 @@ ft.app(target=main)
           しかし、このままではパソコンにArdinoをつなげられていない上にスケッチをコンパイルしていないため
           動きません。次はArduinoにコンパイルするためのプログラム(siketch)を書きましょう。
         </p>
-        <img class="flet_gui" src="img/product3_img/Dr_stone_py.png" alt="">
+        <img class="flet_gui" src="img/product3_img/soft/step1.png" alt="">
       </section>
 
       <!--Arduino-->
@@ -751,7 +753,7 @@ void loop()
           プログラムを実行することができたら「<span style="color: orange;">ポート更新ボタン</span>」を押して
           接続されているCOMポートの確認をしましょう。
         </p>
-        <img class="flet_gui" src="img/product1_img/flte/paot_date.png" alt="">
+        <img class="flet_gui" src="img/product3_img/soft/step1.png" alt="">
 
         <h5 class="fifth-title">◇ポート選択</h5>
         <p class="overview-text">

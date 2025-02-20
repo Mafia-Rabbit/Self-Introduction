@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>Raby Lab</title>
+  <meta name="description" content="音声認識とLEDを使って石化光線を再現する">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="img/header/Rabbit.png">
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/dracula.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script>
+    // ハイライトを実行
+    hljs.initHighlightingOnLoad();
+  </script>
+</head>
+
+<body>
+  <header id="header">
+    <h1 class="site-title">
+      <a href="index.html"><img src="img/header/RABY_LAB.png" alt="Sneakers"></a>
+    </h1>
+
+    <nav id="navi">
+      <ul class="nav-menu">
+        <li><a href="index.html">COLLECTION OF WORKS</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="self-introduction1.html">INTRODUCTION</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="company.html">COMPANY</a></li>
+      </ul>
+      <ul class="nav-sns">
+        <li><a href="https://twitter.com/" target="_blank">Twitter</a></li>
+        <li><a href="https://www.facebook.com/" target="_blank">facebook</a></li>
+        <li><a href="https://www.instagram.com/" target="_blank">instagram</a></li>
+      </ul>
+    </nav>
+
+    <div class="toggle_btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div id="mask"></div>
+  </header>
+
+  <main id="main">
+    <!-- 作った作品のプログラミング詳細 -->
+    <section id="explanation">
+      <h2 class="sec-title">ゲームをジャイロスティックで操作する</h2>
+      <section class="centered-section">
+        <img class="title_img" src="img/product4_img/game_window.png" alt="">
+      </section>
+      <section class="centered-section">
+        <h3 class="ther-title">1.OVERVIEW</h3>
+        <p class="overview-text">
+          今回は、Arduinoでジャイロスティックから送られてくる信号をPythonに送り、読み取った信号で操作できるゲームの作成を
+          しましょう。むかつくゲームとなっているので完成したものプログラムでイライラしないよう気を付けてください。<br>
+          それでは、やっていきましょう
+      </section>
+      <!--Python coding-->
+      <section class="centered-section">
+        <h3 class="ther-title">2.PYTHON CODING</h3>
+        <h4 class="fort-title">～環境構築～</h4>
+        <p class="overview-text">
+          はじめにPython仮想環境を作成しましょう。Pythonの仮想環境は,powershellやコマンドプロンプトで
+          「<span style="color:orange">python -m venv [仮想環境名]</span>」のように記述して実行すことで作成することができます。
+          私は以下のように書きます。
+        </p>
+
+        <div class="code-container">
+          <span class="file-name">powershellコマンド</span>
+          <pre><code>
+python -m venv ProductEnv
+          </code></pre>
+        </div>
+        <p class="overview-text">
+          次に仮想環境を起動させて仮想環境内に必要なライブラリのインストールを行います。
+          コマンドプロンプト上で「<span style="color: orange;">.\[仮想環境名]\Scripts\activate</span>」
+          と打つことで実行できます。
+        </p>
+        <div class="code-container">
+          <span class="file-name">powershellコマンド</span>
+          <pre><code>
+.\ProductEnv\Scripts\activate
+          </code></pre>
+        </div>
+        <p class="overview-text">
+          ※ . は作成した仮想環境へのパスを表しており、今回はプロジェクト直下に
+          venv環境があることを想定しています。コマンドを実行している場所にvenv
+          環境がない場合は . の部分のパス適宜書き換えてください。
+        </p>
+        <img class="main_text_img" src="img/product3_img/venv.png" alt="">
+
+        <p class="overview-text">
+          仮想環境を起動させることができたらPythonライブラリーの「<span style="color: orange;">pygame</span>」
+          と「<span style="color: orange;">pyserial</span>」をインストールしましょう。Pythonのライブラリーを
+          インストールする際には「<span style="color: orange;">pip install [ライブラリー名]</span>」と記述することで
+          実行することができます。実際に以下のコードパワーシェルに記述して実行してみましょう。
+        </p>
+
+        <div class="code-container">
+          <span class="file-name">powershellコマンド</span>
+          <pre><code>
+pip install pygame
+pip install pyserial
+          </code></pre>
+        </div>
+
+        <h4 class="fort-title">～コード内容～</h4>
+        <h5 class="fifth-title">◇インポートと初期設定</h5>
+        <p class="overview-text">
+          <span class="code-block">pygame</span>：ゲームライブラリ<br>
+          <span class="code-block">serial</span>：Arduinoとのシリアル通信を行うためのライブラリ<br>
+          <span class="code-block">time</span>：時間操作のための標準ライブラリ<br>
+          <span class="code-block">random</span>：ランダム数生成のための標準ライブラリ<br>
+          <span class="code-block">pygame.init()</span>：Pygameライブラリの初期化を行います。<br>
+        </p>
+
+
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre class="code-py"><code>
+import pygame
+import serial
+import time
+import random
+pygame.init()
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇シリアル通信の設定と画面の設定</h5>
+        <p class="overview-text">
+          <span class="code-block">ser = serial.Serial('COM3', 9600)</span>：COM3ポートで9600ポーレートでシリアル通信を設定します。<br>
+          <span class="code-block">time.sleep(2)</span>：Arduinoとの通信を確率させるために2秒待機します<br>
+          <span class="code-block">screen = pygame.display.set_mode((1024, 1024))</span>：1024×1024ピクセルのPygameウィンドウを作成<br>
+          <span class="code-block">pygame.display.set_caption('Arduino to Pygame')</span>：ウィンドウタイトルを設定します。<br>
+          <span class="code-block">font = pygame.font.SysFont(None, 55)</span>：フォント設定を行う<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre><code>
+ser = serial.Serial('COM3', 9600)
+time.sleep(2)
+screen = pygame.display.set_mode((1024, 1024))
+pygame.display.set_caption('Joystick game')
+font = pygame.font.SysFont(None, 55)
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇色とプレイヤー、障害物の初期設定</h5>
+        <p class="overview-text">
+          <span class="code-block">WHITE</span>、<span class="code-block">BLACK</span>、
+          <span class="code-block">GREEN</span>、<span class="code-block">RED</span>：色の定義<br>
+          <span class="code-block">player_size</span>：プレイヤーの大きさを指定する<br>
+          <span class="code-block">player_pos</span>：障害物の初期位置を設定します。
+          <span class="code-block">random.randint</span>でランダムなX位置を設定します。<br>
+          <span class="code-block">obstacle_speed</span>：障害物の移動速度を設定します<br>
+          <span class="code-block">point</span>：ポイント（スコア）を初期化します<br>
+          <span class="code-block">collision_time</span>：衝突が発生した時刻を初期化する<br>
+          <span class="code-block">start_time</span>：ゲームの開始時刻を取得します。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre><code>
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+
+player_size = 20
+player_pos = [512, 512]
+
+obstacle_size = 20
+obstacle_pos = [random.randint(0, 1024-obstacle_size), 0]
+obstacle_speed = 10
+
+point = 0
+collision_time = 0
+start_time = pygame.time.get_ticks()
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇メインループ</h5>
+        <p class="overview-text">
+          <span class="code-block">running = True</span>：ゲームループのフラグを設定します<br>
+          <span class="code-block">clock = pygame.time.Clock()</span>：ゲームのフレームレートを管理します<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre><code>
+while running:
+  for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+          running = False
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇シリアルデータの読み取りとプレイヤー位置の更新</h5>
+        <p class="overview-text">
+          <span class="code-block">ser.in_waiting</span>：受信バッファにデータがあるかを確認します。<br>
+          <span class="code-block">data = ser.readline().decode('ISO-8859-1').strip()</span>：シリアルデータを読み取り、デコードして整形します。<br>
+          データが存在する場合、<span class="code-block">x, y = map(int, data.split(','))</span>でX軸とY軸の値を取得し、<span class="code-block">player_pos</span>に設定します。
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre><code>
+  if ser.in_waiting > 0:
+    data = ser.readline().decode('ISO-8859-1').strip()
+      if data:
+          try:
+            x, y = map(int, data.split(','))
+            player_pos = [x - player_size // 2, y - player_size // 2]
+          except ValueError:
+            continue
+  print(f"{x}, {y}")
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇障害物の移動と再配置</h5>
+        <p class="overview-text">
+          障害物が画面の下端に達した場合、再び画面上端に配置します<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre><code>
+  obstacle_pos[1] += obstacle_speed
+  if obstacle_pos[1] > 1024:
+      obstacle_pos = [random.randint(0, 1024-obstacle_size), 0]
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇衝突判定とポイントの更新</h5>
+        <p class="overview-text">
+          プレイヤーと障害物の位置をチェックし、衝突があった場合にポイントを更新します。
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre><code>
+  current_time = pygame.time.get_ticks()
+  if (obstacle_pos[0] < player_pos[0] < obstacle_pos[0] + obstacle_size or 
+    obstacle_pos[0] < player_pos[0] + player_size < obstacle_pos[0] + obstacle_size) and (
+    obstacle_pos[1] < player_pos[1] < obstacle_pos[1] + obstacle_size or 
+    obstacle_pos[1] < player_pos[1] + player_size < obstacle_pos[1] + obstacle_size):
+    if current_time - collision_time > 1000:
+      point += 1
+      collision_time = current_time
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇ゲーム終了判定</h5>
+        <p class="overview-text">
+          ページに GUI コンポーネントを追加しています。
+        </p>
+        <p class="overview-text">
+          ポイントが10に達した場合、ゲームを終了します
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre><code>
+  if point == 10:
+    elapsed_time = (pygame.time.get_ticks() - start_time) // 1000
+    running = False
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇画面の更新</h5>
+        <p class="overview-text">
+          画面を黒でクリアし、プレイヤーと障害物を描画します<br>
+          現在のスコアと経過時間を表示します<br>
+          画面を更新し、毎秒60フレームの速度でループを実行します。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre><code>
+  screen.fill(BLACK)
+  pygame.draw.rect(screen, GREEN, (player_pos[0], player_pos[1], player_size, player_size))  # キャラクターを描画
+  pygame.draw.rect(screen, RED, (obstacle_pos[0], obstacle_pos[1], obstacle_size, obstacle_size))  # 障害物を描画
+
+  score_text = font.render(f"Points: {point}", True, WHITE)
+  screen.blit(score_text, (10, 10))
+
+  elapsed_time_text = font.render(f"Time: {(pygame.time.get_ticks() - start_time) // 1000} s", True, WHITE)
+  screen.blit(elapsed_time_text, (10, 70))
+
+  pygame.display.flip()
+  clock.tick(60)
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇画面の更新</h5>
+        <p class="overview-text">
+          シリアル通信を閉じ、Pygameを終了します<br>
+          経過時間を表示します<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick_game.py</span>
+          <pre><code>
+  ser.close()
+  pygame.quit()
+  
+  print(f"10ポイントに到達するまでの秒数: {elapsed_time}秒")
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇完成版コード</h5>
+        <div class="code-container">
+          <details>
+            <summary><strong><span class="file-name-summa">Joystick_game.py</span></strong></summary>
+            <pre><code>
+import pygame
+import serial
+import time
+import random
+pygame.init()
+
+ser = serial.Serial('COM3', 9600)
+time.sleep(2)
+screen = pygame.display.set_mode((1024, 1024))
+pygame.display.set_caption('Joystick game')
+font = pygame.font.SysFont(None, 55)
+
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+
+player_size = 20
+player_pos = [512, 512]
+
+obstacle_size = 20
+obstacle_pos = [random.randint(0, 1024-obstacle_size), 0]
+obstacle_speed = 10
+
+point = 0
+collision_time = 0
+start_time = pygame.time.get_ticks()
+
+running = True
+clock = pygame.time.Clock()
+
+while running:
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+      running = False
+
+  if ser.in_waiting > 0:
+    data = ser.readline().decode('ISO-8859-1').strip()
+    if data:
+      try:
+        x, y = map(int, data.split(','))
+        player_pos = [x - player_size // 2, y - player_size // 2]
+      except ValueError:
+        continue
+  print(f"{x}, {y}")
+  obstacle_pos[1] += obstacle_speed
+  if obstacle_pos[1] > 1024:
+    obstacle_pos = [random.randint(0, 1024-obstacle_size), 0]
+
+  current_time = pygame.time.get_ticks()
+  if (obstacle_pos[0] < player_pos[0] < obstacle_pos[0] + obstacle_size or 
+    obstacle_pos[0] < player_pos[0] + player_size < obstacle_pos[0] + obstacle_size) and (
+    obstacle_pos[1] < player_pos[1] < obstacle_pos[1] + obstacle_size or 
+    obstacle_pos[1] < player_pos[1] + player_size < obstacle_pos[1] + obstacle_size):
+    if current_time - collision_time > 1000:
+      point += 1
+      collision_time = current_time
+
+  if point == 10:
+    elapsed_time = (pygame.time.get_ticks() - start_time) // 1000
+    running = False
+
+  screen.fill(BLACK)
+  pygame.draw.rect(screen, GREEN, (player_pos[0], player_pos[1], player_size, player_size))  # キャラクターを描画
+  pygame.draw.rect(screen, RED, (obstacle_pos[0], obstacle_pos[1], obstacle_size, obstacle_size))  # 障害物を描画
+
+  score_text = font.render(f"Points: {point}", True, WHITE)
+  screen.blit(score_text, (10, 10))
+
+  elapsed_time_text = font.render(f"Time: {(pygame.time.get_ticks() - start_time) // 1000} s", True, WHITE)
+  screen.blit(elapsed_time_text, (10, 70))
+
+  pygame.display.flip()
+  clock.tick(60)
+ser.close()
+pygame.quit()
+
+print(f"10ポイントに到達するまでの秒数: {elapsed_time}秒")              
+            </code></pre>
+          </details>
+
+        </div>
+        <h5 class="fifth-title">◇実行結果</h5>
+        <p class="overview-text">
+          プログラムを実行すると以下ののようなアプリケーションが起動します。
+          しかし、このままではパソコンにArdinoをつなげられていない上にスケッチをコンパイルしていないため
+          動きません。次はArduinoにコンパイルするためのプログラム(siketch)を書きましょう。
+        </p>
+        <img class="flet-gui-img" src="img/product4_img/game_window.png" alt="">
+      </section>
+
+      <!--Arduino-->
+      <section class="centered-section">
+        <h3 class="ther-title">3.ARDUINO CODING</h3>
+        <h4 class="fort-title">～コード内容～</h4>
+        <p class="overview-text">
+          このコードは、シリアルモニタからジャイロスティックの数値を読み取りPythonに送信します
+        </p>
+
+        <h5 class="fifth-title">◇グローバル変数の定義</h5>
+        <p class="overview-text">
+          <span class="code-block">const int SW_pin = 2;</span>：ジョイスティックのスイッチ（ボタン）が接続されているピンを指定します。<br>
+          <span class="code-block">const int X_pin = A0;</span>：ジョイスティックのX軸のアナログ入力が接続されているピンを指定します。<br>
+          <span class="code-block">const int Y_pin = A1;</span>：ジョイスティックのY軸のアナログ入力が接続されているピンを指定します。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick.ino</span>
+          <pre><code>
+const int SW_pin = 2; 
+const int X_pin = A0; 
+const int Y_pin = A1;
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇setup()関数</h5>
+        <p class="overview-text">
+          この関数はプログラムの実行が始まると一度だけ実行され、初期設定を行います。<br>
+          <span class="code-block">pinMode(SW_pin, INPUT);</span>：SW_pinを入力モードに設定<br>
+          <span class="code-block">digitalWrite(SW_pin, HIGH);</span>：プルアップ抵抗を有効にするためにSW_pinをHIGHに設定<br>
+          <span class="code-block">Serial.begin(9600);</span>：シリアル通信を9600ボーレートで開始<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick.ino</span>
+          <pre><code>
+void setup() {
+  pinMode(SW_pin, INPUT);
+  digitalWrite(SW_pin, HIGH);
+  Serial.begin(9600);
+}
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇loop関数</h5>
+        <p class="overview-text">
+          この関数葉プログラムの実行中に繰り返し実行され、ジョイスティックの状態を読み取り、その情報をシリアルモニタに送信します。<br>
+          <span class="code-block">int sw = digitalRead(SW_pin);</span>：スイッチの状態を読み取る<br>
+          <span class="code-block">int x = analogRead(X_pin);</span>：X軸のアナログ値を読み取る<br>
+          <span class="code-block">int y = analogRead(Y_pin);</span>：Y軸のアナログ値を読み取る<br>
+          <span class="code-block">Serial.print(x);</span>：X軸の値をシリアルモニタに出力<br>
+          <span class="code-block">Serial.print(",");</span>：カンマを出力<br>
+          <span class="code-block">Serial.println(y);</span>：Y軸の値をシリアルモニタに出力し、改行する<br>
+          <span class="code-block">delay(25);</span>：25ミリ秒待機<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Joystick.ino</span>
+          <pre><code>
+void loop() {
+  int sw = digitalRead(SW_pin);
+  int x = analogRead(X_pin);
+  int y = analogRead(Y_pin);
+
+  Serial.print(x);
+  Serial.print(",");
+  Serial.println(y);
+  delay(25);
+}
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇完成版コード</h5>
+        <div class="code-container">
+          <details>
+            <summary><strong><span class="file-name-summa">Joystick.ino</span></strong></summary>
+            <pre><code>
+const int SW_pin = 2;
+const int X_pin = A0;
+const int Y_pin = A1;
+
+void setup() {
+  pinMode(SW_pin, INPUT);
+  digitalWrite(SW_pin, HIGH);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int sw = digitalRead(SW_pin);
+  int x = analogRead(X_pin);
+  int y = analogRead(Y_pin);
+
+  Serial.print(x);
+  Serial.print(",");
+  Serial.println(y);
+  delay(25);
+}
+            </code></pre>
+          </details>
+
+        </div>
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">4.HARDWARE DESIGN</h3>
+        <h4 class="fort-title">～LED制御回路～</h4>
+        <p class="overview-text">
+          シリアルモニターから「OK」と送信すると緑色のLEDが付きます。それ以外のコマンドを送信すると
+          赤色のLEDが点滅します。以下のパーツを使って回路を組んでみましょう。
+        </p>
+        <h5 class="fifth-title">◇使用パーツ</h5>
+        <img class="part-img" src="img/product4_img/part.png" alt="">
+
+        <h4 class="fort-title">～手順～</h4>
+        <h5 class="fifth-title">◇ボードの準備</h5>
+        <p class="overview-text">
+          今回は私はArduino Unoボードを使用します。ボードをUSBケーブルでパソコンに接続し、電源を供給します。
+        </p>
+        <img class="part-img" src="img/product1_img/step1.png" alt="">
+
+        <h5 class="fifth-title">◇ジョイスティックの接続</h5>
+        <ul class="overview-text">
+          ジョイスティックモジュールのGNDピンをArduinoのGNDピンに接続します（黒いワイヤー）。<br>
+          ジョイスティックモジュールの<span style="color: red">VCC(5V+)ピン</span>をArduinoの5Vピンに接続します（赤いワイヤー）。<br>
+          ジョイスティックモジュールの<span style="color: #e9e93a">VRx(HORZ)ピン</span>をArduinoのA0ピンに接続します（黄色いワイヤー）。<br>
+          ジョイスティックモジュールの<span style="color: orange">VRy(VERT)ピン</span>をArduinoのA1ピンに接続します（オレンジ色のワイヤー）。<br>
+          ジョイスティックモジュールの<span style="color: green">SW(SELT)ピン</span>をArduinoのD2ピンに接続します（緑色のワイヤー）。<br>
+        </ul>
+        <img class="part-img" src="img/product4_img/step1.png" alt="">
+
+        <h5 class="fifth-title">◇回路の確認</h5>
+        <ul class="overview-text">
+          <li><span style="color: orange;">LEDの極性</span>: LEDにはアノード（正極）とカソード（負極）があり、極性が逆になっていると点灯しません。
+            LEDの長い端子（アノード）が正しいピンに接続されているか確認してください。</li>
+          <li><span style="color: orange;">抵抗の値と接続</span>: 抵抗が正しい値（220Ωなど）であり、正しい位置に接続されているか確認します。
+            抵抗の値が間違っていると、LEDが壊れる可能性があります。</li>
+          <li><span style="color: orange;">ジャンプワイヤーの接続</span>: ジャンパーワイヤーが正しいピンに接続され、
+            しっかりと差し込まれているか確認してください。緩んでいると接触不良が発生します。</li>
+          <li><span style="color: orange;">ショート回路の確認</span>: ブレッドボード上でピン同士が直接接触している部分がないか確認します。
+            ショート回路が発生すると、Arduinoや他の部品が損傷する可能性があります。</li>
+          <li><span style="color: orange;">Arduinoボードの接続</span>: Arduinoボードが正しく接続され、電源が入っているか確認してください。
+            接続が緩んでいると正常に動作しません。</li>
+        </ul>
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">5.EXECUTION</h3>
+        <h5 class="fifth-title">◇コンパイル</h5>
+        <p class="overview-text">
+          Arduino IDEに書いたプログラムをArduinoにコンパイルしましょう。
+        </p>
+        <h4 class="fort-title">～操作方法～</h4>
+        <h5 class="fifth-title">◇コントローラー持ち方</h5>
+        <p class="overview-text">
+          下の画像にあるように人差し指と、中指で配線コードをはさむようにジョイスティックを持ちましょう
+        </p>
+        <img class="flet-gui-img" src="img/product4_img/motikata.png" alt="">
+
+        <h5 class="fifth-title">◇Game起動</h5>
+        <p class="overview-text">
+          Pythonプログラムを実行しましょう。このようにゲーム画面を表示することができたら成功です。
+        </p>
+        <img class="flet-gui-img" src="img/product4_img/start-game.png" alt="">
+
+        <h5 class="fifth-title">◇ポイントを獲得する</h5>
+        <p class="overview-text">
+          赤色のオブジェクトに触れると画面左端に存在するポイントが加算されます。ジョイスティックを左に曲げるとこのように緑色のオブジェクトが日取りに移動します。<br>
+          緑色のオブジェクトは、傾けた数値を直接参照しているため挙動がテレポートのようになっておりますがこれで正しいです。<br>
+        </p>
+        <img class="flet-gui-img" src="img/product4_img/game-right.png" alt="">
+
+        <h5 class="fifth-title">◇ゲーム終了</h5>
+        <p class="overview-text">
+          このゲームは、赤いオブジェクトに10回当てると終了しリザルトとして10回当てるまでにかかった秒数を表示します。
+          このゲームはオブジェクトに触れても赤色のオブジェクトは破壊されません。
+          さらに、ジョイスティックは直接持つと痛いです。まだまだ、改善の余地がありそうです。<br>
+          ちなみに最高記録は<strong>27秒</strong>でした。
+        </p>
+        <img class="flet-gui-img" src="img/product4_img/result.png" alt="">
+        
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">6.END</h3>
+        <h5 class="end-title">楽しめましたでしょうか<br>これでこの作品は終わりです<br>お疲れさまでした。</h5>
+
+      </section>
+    </section>
+
+
+    <section id="contact">
+      <h2 class="sec-title">CONTACT</h2>
+      <div class="content">
+        <div class="contact-info">
+          <p>このサイトはRabyの作った自己満サイトです</p>
+          <p>
+            このサイトから学べることは少ないと思います。しかし、新しい発見の手助けと
+            なればと思います。新しい視点を得たり、興味を持つテーマを見つけたりするこ
+            とができるでしょう。是非、お楽しみいただければ幸いです。
+          </p>
+          <p>
+            また、このようなことをやってほしいという要望があれば、ぜひお知らせくださ
+            い。私たちは皆さまのご意見を大切にし、より良いサービスを提供できるよう努
+            めております。どんな小さなことでも構いませんので、皆さまのアイデアをお待
+            ちしております。
+          </p>
+        </div>
+
+        <div class="contact-form">
+          <form action="#">
+            <dl>
+              <dt><label for="name">Name:</label></dt>
+              <dd><input type="text" id="name" name="your-name"></dd>
+              <dt><label for="email">Mail:</label></dt>
+              <dd><input type="email" id="email" name="your-email"></dd>
+              <dt><label for="message">Message:</label></dt>
+              <dd><textarea id="message" name="your-message"></textarea></dd>
+            </dl>
+            <div class="button"><input type="submit" value="SEND"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="footer">
+    <p>&copy; Raby Lab</p>
+  </footer>
+</body>
+
+</html>

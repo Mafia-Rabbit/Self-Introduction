@@ -63,7 +63,7 @@
         <h3 class="ther-title">1.OVERVIEW</h3>
         <p class="overview-text">
           今回は、Arduinoでジャイロスティックから送られてくる信号をPythonに送り、読み取った信号で操作できるゲームの作成を
-          しましょう。むかつくゲームとなっているので完成したものプログラムでイライラしないよう気を付けてください。<br>
+          しましょう。むかつくゲームとなっているので完成したゲームでイライラしないよう気を付けてください。<br>
           それでは、やっていきましょう
       </section>
       <!--Python coding-->
@@ -509,10 +509,9 @@ void loop() {
 
       <section class="centered-section">
         <h3 class="ther-title">4.HARDWARE DESIGN</h3>
-        <h4 class="fort-title">～LED制御回路～</h4>
+        <h4 class="fort-title">～ジョイスティック制御回路～</h4>
         <p class="overview-text">
-          シリアルモニターから「OK」と送信すると緑色のLEDが付きます。それ以外のコマンドを送信すると
-          赤色のLEDが点滅します。以下のパーツを使って回路を組んでみましょう。
+          ジョイスティックのの入力データをPythonに送れるようにしましょう
         </p>
         <h5 class="fifth-title">◇使用パーツ</h5>
         <img class="part-img" src="img/product4_img/part.png" alt="">

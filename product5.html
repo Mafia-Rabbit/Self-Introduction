@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>Raby Lab</title>
+  <meta name="description" content="音声認識とLEDを使って石化光線を再現する">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="img/header/Rabbit.png">
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/dracula.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script>
+    // ハイライトを実行
+    hljs.initHighlightingOnLoad();
+  </script>
+</head>
+
+<body>
+  <header id="header">
+    <h1 class="site-title">
+      <a href="index.html"><img src="img/header/RABY_LAB.png" alt="Sneakers"></a>
+    </h1>
+
+    <nav id="navi">
+      <ul class="nav-menu">
+        <li><a href="index.html">COLLECTION OF WORKS</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="self-introduction1.html">INTRODUCTION</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="company.html">COMPANY</a></li>
+      </ul>
+      <ul class="nav-sns">
+        <li><a href="https://twitter.com/" target="_blank">Twitter</a></li>
+        <li><a href="https://www.facebook.com/" target="_blank">facebook</a></li>
+        <li><a href="https://www.instagram.com/" target="_blank">instagram</a></li>
+      </ul>
+    </nav>
+
+    <div class="toggle_btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div id="mask"></div>
+  </header>
+
+  <main id="main">
+    <!-- 作った作品のプログラミング詳細 -->
+    <section id="explanation">
+      <h2 class="sec-title">アイアンマンのリパルサー・ビームを再現する</h2>
+      <section class="centered-section">
+        <img class="title_img" src="img/product5_img/product5.png" alt="">
+      </section>
+      <section class="centered-section">
+        <h3 class="ther-title">1.OVERVIEW</h3>
+        <p class="overview-text">
+          皆さんはアイアンマンご存じですか？
+          今回は、アイアンマンの腕に搭載されている武器、リパルサー・ビームの作成を行います。
+          ジャイロセンサーを使って手首の角度を図り特定の値を出すことができたら
+          LEDが点灯させます。ジャイロセンサーは様々なことに使われています学んでおいて損はないでしょう。それではやっていきましょう
+
+      </section>
+
+      <!--Arduino-->
+      <section class="centered-section">
+        <h3 class="ther-title">2.ARDUINO CODING</h3>
+        <h4 class="fort-title">～コード内容～</h4>
+        <h5 class="fifth-title">◇ヘッダーファイルのインクルード</h5>
+        <p class="overview-text">
+          <span class="code-block">Wire.h</span>：I2C通信を行うための標準ライブラリ<br>
+          <span class="code-block">Adafruit_NeoPixel.h</span>：Adafruit社のNeoPixel RGB LEDストリップを制御するためのライブラリ<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Repulsor-Beam.ino</span>
+          <pre><code>
+#include &lt;Wire.h&gt;
+#include &lt;Adafruit_NeoPixel.h&gt;
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇定数と変数の宣言</h5>
+        <p class="overview-text">
+          <span class="code-block">MPU6050_ADDR</span>：MPU-6050センサーのI2Cアドレスで、<span
+            class="code-block">0x68</span>に設定されています<br>
+          <span class="code-block">PIN_SIG</span>：LEDストリップを制御するためのピン番号です。このプログラムではピン2が使用されています<br>
+          <span class="code-block">NUM_PIXELS</span>：LEDストリップのLEDの数を定義します。このプログラムでは8個のLEDを制御します。<br>
+          <span class="code-block">pixels</span>：NeoPixelオブジェクトを作成し、LEDストリップを初期化します。<span class="code-block">NEO_GRB +
+            NEO_KHZ800</span>はLEDの色順序と信号周波数を設定します<br>
+          <span class="code-block">ax, ay, az, gx, gy, gz, Temp</span>：センサーデータを格納する変数。
+          頭文字に<span class="code-block">a</span>がついてている物は各軸の加速度を意味します。
+          また、頭文字に<span class="code-block">g</span>がついているものは各軸の角速度を意味します。<br>
+          <span class="code-block">prevGy</span>：前回のy軸角速度の値を格納する変数<br>
+          <span class="code-block">threshold</span>：閾値を定義します。y軸角速度の変化がこの閾値を下回った場合にLEDを点灯させます<br>
+
+        </p>
+        <div class="code-container">
+          <span class="file-name">Repulsor-Beam.ino</span>
+          <pre><code>
+#define MPU6050_ADDR 0x68
+const int PIN_SIG = 2;
+const int NUM_PIXELS = 8;
+Adafruit_NeoPixel pixels(NUM_PIXELS, PIN_SIG, NEO_GRB + NEO_KHZ800);
+int16_t ax, ay, az, gx, gy, gz, Temp;
+int16_t prevGy = 0;
+const int threshold = -200;
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇セットアップ関数</h5>
+        <p class="overview-text">
+          <span class="code-block">Serial.begin(115200)</span>：シリアル通信を115200bpsで開始します<br>
+          <span class="code-block">Wire.begin()</span>：I2C通信を初期化します<br>
+          <span
+            class="code-block">Wire.beginTransmission(MPU6050_ADDR),Wire.write(0x6B)</span>：一連のコマンドは、MPU-6050センサーの電源管理レジスタを設定し、センサーを起動させます<br>
+          <span class="code-block">pixels.begin(),pixels.setBrightness(20)</span>：NeoPixel
+          LEDストリップを初期化し、,<span>pixels.setBrightness(20)</span>はLEDの明るさを20に設定します<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Repulsor-Beam.ino</span>
+          <pre><code>
+void setup() {
+  Serial.begin(115200);
+  Serial.println("--- Started ---");
+
+  Wire.begin();
+
+  Wire.beginTransmission(MPU6050_ADDR);
+  Wire.write(0x6B);
+  Wire.write(0x00);
+  Wire.endTransmission();
+
+  pixels.begin();
+  pixels.setBrightness(20);
+}
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇ループ関数</h5>
+        <p class="overview-text">
+          この部分では、MPU-6050センサーから14バイトのデータを読み取ります。I2C通信を使用してセンサーにアクセスし、加速度、温度、角速度のデータを取得します。<br> <span
+            class="code-block">Wire.read()</span>：上位バイトを読み取ります<br>
+          <span class="code-block">
+            << 8</span>：上位バイトを8ビット左シフトします。これにより、上位バイトが16ビットの上位部分に移動します<br>
+              <span class="code-block">Wire.read()</span>：下位バイトを読み取ります<br>
+              <span class="code-block">|</span>：（ビット論理和）演算子を使って上位バイトと下位バイトを結合します<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Repulsor-Beam.ino</span>
+          <pre><code>
+void loop() {
+  Wire.beginTransmission(MPU6050_ADDR);
+  Wire.write(0x3B);
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU6050_ADDR, 14, true);
+
+  ax = Wire.read() << 8 | Wire.read();
+  ay = Wire.read() << 8 | Wire.read();
+  az = Wire.read() << 8 | Wire.read();
+  Temp = Wire.read() << 8 | Wire.read();
+  gx = Wire.read() << 8 | Wire.read();
+  gy = Wire.read() << 8 | Wire.read();
+  gz = Wire.read() << 8 | Wire.read();
+          </code></pre>
+        </div>
+
+        <p class="overview-text">
+          読み取ったセンサーデータをシリアルモニタに表示します。加速度データは16384.0で割り、角速度データは131.0で割ることで実際の値に変換します。<br> </p>
+        <div class="code-container">
+          <span class="file-name">Repulsor-Beam.ino</span>
+          <pre><code>
+  Serial.print(ax / 16384.0); Serial.print(" g, ");
+  Serial.print(ay / 16384.0); Serial.print(" g, ");
+  Serial.print(az / 16384.0); Serial.print(" g, ");
+  Serial.print(gx / 131.0); Serial.print(" deg/s, ");
+  Serial.print(gy / 131.0); Serial.print(" deg/s, ");
+  Serial.print(gz / 131.0); Serial.println(" deg/s, ");          
+          </code></pre>
+        </div>
+
+        <p class="overview-text">
+          y軸角速度の現在の値と前回の値の差が閾値（-200）を下回った場合、<span class="code-block">lightUpLEDs</span>関数を呼び出してLEDを点灯させます。<br>
+          最後に、前回のy軸角速度の値を更新し、20ミリ秒の遅延を設定します。<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Repulsor-Beam.ino</span>
+          <pre><code>
+  if (gy - prevGy < threshold * 131) {
+    lightUpLEDs();
+  }
+
+  prevGy = gy;
+  delay(20);
+}          
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇LED制御関数</h5>
+        <p class="overview-text">
+          <span class="code-block">lightUpLEDs</span>：関数はLEDの明るさを徐々に増減させ、赤色に点灯させます<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">Repulsor-Beam.ino</span>
+          <pre><code>
+void lightUpLEDsWhite() {
+  for (int j = 0; j < 2; j++) { // 明るくするのと暗くするのを2回繰り返す
+    // LEDを徐々に明るくする
+    for (int brightness = 0; brightness <= 255; brightness += 5) {
+      pixels.clear();
+      for (int i = 0; i < NUM_PIXELS; i++) {
+        // RGB値をすべて最大（255）に設定して白色にする
+        pixels.setPixelColor(i, pixels.Color(brightness, brightness, brightness));
+      }
+      pixels.show();
+      delay(20);
+    }
+
+    // LEDを徐々に暗くする
+    for (int brightness = 255; brightness >= 0; brightness -= 5) {
+      pixels.clear();
+      for (int i = 0; i < NUM_PIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(brightness, brightness, brightness));
+      }
+      pixels.show();
+      delay(20);
+    }
+  }
+}            
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇完成版コード</h5>
+        <div class="code-container">
+          <details>
+            <summary><strong><span class="file-name-summa">Joystick.ino</span></strong></summary>
+            <pre><code>
+#include &lt;Wire.h&gt;
+#include &lt;Adafruit_NeoPixel.h&gt;
+  
+// MPU-6050 I2Cアドレス
+#define MPU6050_ADDR 0x68
+
+// RGB LED設定
+const int PIN_SIG = 2;
+const int NUM_PIXELS = 8;
+Adafruit_NeoPixel pixels(NUM_PIXELS, PIN_SIG, NEO_GRB + NEO_KHZ800);
+
+// センサデータを格納する変数
+int16_t ax, ay, az, gx, gy, gz, Temp;
+int16_t prevGy = 0;
+const int threshold = -200; // -200度の変化を検出する閾値
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("--- Started ---");
+  
+  Wire.begin();
+  
+  // MPU6050の初期化
+  Wire.beginTransmission(MPU6050_ADDR);
+  Wire.write(0x6B); // MPU6050_PWR_MGMT_1レジスタ
+  Wire.write(0x00); // センサを起動するために0を設定
+  Wire.endTransmission();
+  
+  pixels.begin();
+  pixels.setBrightness(20);
+}
+
+void loop() {
+  // センサデータの読み取り
+  Wire.beginTransmission(MPU6050_ADDR);
+  Wire.write(0x3B);
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU6050_ADDR, 14, true);
+  
+  ax = Wire.read() << 8 | Wire.read();
+  ay = Wire.read() << 8 | Wire.read();
+  az = Wire.read() << 8 | Wire.read();
+  Temp = Wire.read() << 8 | Wire.read();
+  gx = Wire.read() << 8 | Wire.read();
+  gy = Wire.read() << 8 | Wire.read();
+  gz = Wire.read() << 8 | Wire.read();
+  
+  // センサデータの変換と表示
+  Serial.print(ax / 16384.0); Serial.print(" g, ");
+  Serial.print(ay / 16384.0); Serial.print(" g, ");
+  Serial.print(az / 16384.0); Serial.print(" g, ");
+  Serial.print(gx / 131.0); Serial.print(" deg/s, ");
+  Serial.print(gy / 131.0); Serial.print(" deg/s, ");
+  Serial.print(gz / 131.0); Serial.println(" deg/s, ");
+  
+  // y軸角速度が前回よりも200度以上低下した場合にLEDを点灯
+  if (gy - prevGy < threshold * 131) {
+    lightUpLEDs();
+  }
+
+  // 前回のgy値を更新
+  prevGy = gy;
+
+  delay(20);
+}
+
+void lightUpLEDs() {
+  for (int j = 0; j < 2; j++) { // 明るくするのと暗くするのを2回繰り返す
+    // LEDを徐々に明るくする
+    for (int brightness = 0; brightness <= 255; brightness += 5) {
+      pixels.clear();
+      for (int i = 0; i < NUM_PIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(brightness, 0, 0));
+      }
+      pixels.show();
+      delay(20);
+    }
+
+    // LEDを徐々に暗くする
+    for (int brightness = 255; brightness >= 0; brightness -= 5) {
+      pixels.clear();
+      for (int i = 0; i < NUM_PIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(brightness, 0, 0));
+      }
+      pixels.show();
+      delay(20);
+    }
+  }
+}                       
+            </code></pre>
+          </details>
+
+        </div>
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">3.HARDWARE DESIGN</h3>
+        <h4 class="fort-title">～手順～</h4>
+        <h5 class="fifth-title">◇使用パーツ</h5>
+        <img class="part-img" src="img/product5_img/part.png" alt="">
+
+        <h4 class="fort-title">～LED制御回路～</h4>
+        <p class="overview-text">
+          ジャイロセンサーから送られてくる数値がある値よりも大きいまたは小さいときに光らせるためのLEDを設置します。
+        </p>
+        <h5 class="fifth-title">◇ボードの準備</h5>
+        <p class="overview-text">
+          今回は私はArduino Unoボードを使用します。ボードをUSBケーブルでパソコンに接続し、電源を供給します。
+        </p>
+        <img class="part-img" src="img/product1_img/step1.png" alt="">
+
+        <h5 class="fifth-title">◇LEDリングの電源接続</h5>
+        <p class="overview-text">
+          LEDリングの「VCC」ピンをArduino Unoの「5V」ピンに接続します（<span style="color: purple;">紫</span>）
+        </p>
+        <h5 class="fifth-title">◇LEDリングのグランド接続</h5>
+        <p class="overview-text">
+          LEDリングの「GND」ピンをArduino Unoの「GND」ピンに接続します（<span style="color: green;">緑</span>）
+        </p>
+        <h5 class="fifth-title">◇LEDリングのグランド接続</h5>
+        <p class="overview-text">
+          LEDリングの「DIN」ピンをArduino Unoのデジタルピン2に接続します（<span style="color: gray;">灰</span>）
+        </p>
+        <img class="part-img" src="img/product5_img/step2.png" alt="">
+
+        <h4 class="fort-title">～ジャイロセンサ制御回路～</h4>
+        <p class="overview-text">
+          手首の値を確認するためにジャイロセンサーを付けましょう
+        </p>
+        <h5 class="fifth-title">◇MPU-6050 センサーの電源接続</h5>
+        <p class="overview-text">
+          <span class="code-block">GNDピン</span>：MPU-6050の「GND」ピンをジャンパーワイヤーを使ってArduino Unoの「GND」ピンに接続します。（<span style="color: blue;">青</span>）<br>
+          <span class="code-block">VCCピン</span>：MPU-6050の「VCC」ピンをジャンパーワイヤーを使ってArduino Unoの「5V」ピンに接続します。（白）<br>
+        </p>
+        <h5 class="fifth-title">◇MI2C接続</h5>
+        <p class="overview-text">
+          <span class="code-block">SDAピン</span>：MPU-6050の「SDA」ピンをジャンパーワイヤーを使ってArduino Unoの「SDA」ピンに接続します。（<span style="color: red;">赤</span>）<br>
+          <span class="code-block">SCLピン</span>：MPU-6050の「SCL」ピンをジャンパーワイヤーを使ってArduino Unoの「SCL」ピンに接続します。（黒）<br>
+        </p>
+        <img class="part-img" src="img/product5_img/step3.png" alt="">
+
+        <h5 class="fifth-title">◇回路の確認</h5>
+        <ul class="overview-text">
+          <li><span style="color: orange;">LEDの極性</span>: LEDにはアノード（正極）とカソード（負極）があり、極性が逆になっていると点灯しません。
+            LEDの長い端子（アノード）が正しいピンに接続されているか確認してください。</li>
+          <li><span style="color: orange;">抵抗の値と接続</span>: 抵抗が正しい値（220Ωなど）であり、正しい位置に接続されているか確認します。
+            抵抗の値が間違っていると、LEDが壊れる可能性があります。</li>
+          <li><span style="color: orange;">ジャンプワイヤーの接続</span>: ジャンパーワイヤーが正しいピンに接続され、
+            しっかりと差し込まれているか確認してください。緩んでいると接触不良が発生します。</li>
+          <li><span style="color: orange;">ショート回路の確認</span>: ブレッドボード上でピン同士が直接接触している部分がないか確認します。
+            ショート回路が発生すると、Arduinoや他の部品が損傷する可能性があります。</li>
+          <li><span style="color: orange;">Arduinoボードの接続</span>: Arduinoボードが正しく接続され、電源が入っているか確認してください。
+            接続が緩んでいると正常に動作しません。</li>
+        </ul>
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">4.WEARABLE DESIGN</h3>
+        <h5 class="fifth-title">◇使用パーツ</h5>
+        <img src="img/product5_img/wearabl-part.png" alt="">
+
+        <h5 class="fifth-title">◇輪ゴムを付ける</h5>
+        <p class="overview-text">
+          Arduinoに輪ゴムを3個使って手首に通すための輪っかを作ります。
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step1.png" alt="">
+
+        <h5 class="fifth-title">◇バッテリーパック</h5>
+        <p class="overview-text">
+          パソコンからの電力供給だと手首が動かしずらいので動かしやすいようにバッテリーパックから電力を供給するために先ほど付けた
+          輪ゴムの真ん中に付けます。
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step2.png" alt="">
+
+        <h5 class="fifth-title">◇手袋装着</h5>
+        <p class="overview-text">
+          次に手のひらにつけるためのLEDに3個の輪ゴム使って輪っかを作成します。真ん中の輪ゴムは邪魔になるので適度に長さを残して
+          切ってあげてください。短く切りすぎると両端の輪ゴムが切れてしまします。
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step3.png" alt="">
+
+
+        <h5 class="fifth-title">◇手袋装着</h5>
+        <p class="overview-text">
+          Arduinoに付けられているはんだから手を保護するために手袋を装着しましょう。手の皮膚が厚く痛みを感じないのであれば
+          そのままでも結構です。手袋をつけることを強くお勧めします。
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step4.png" alt="">
+
+        <h5 class="fifth-title">◇Arduino装着</h5>
+        <p class="overview-text">
+          Arduinoを手首に装着しますこの時に手首の可動域を抑制しないように調整してください
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step5.png" alt="">
+
+        <h5 class="fifth-title">◇LED装着</h5>
+        <p class="overview-text">
+          手のひらにLEDをくくりましょう
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step6.png" alt="">
+
+        <h5 class="fifth-title">◇ジャイロセンサ装着</h5>
+        <p class="overview-text">
+          ジャイロセンサを先ほどくくった輪ゴムの後ろにはさむように
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step7.png" alt="">
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">5.EXECUTION</h3>
+        <h5 class="fifth-title">◇コンパイル</h5>
+        <p class="overview-text">
+          Arduino IDEに書いたプログラムをArduinoにコンパイルしましょう。
+        </p>
+        <h4 class="fort-title">～発動方法～</h4>
+        <h5 class="fifth-title">◇下へ</h5>
+        <p class="overview-text">
+          下の画像に手首をバッテリーパックに近づけるように曲げましょう。
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step8.png" alt="">
+
+        <h5 class="fifth-title">◇上へ</h5>
+        <p class="overview-text">
+          手首を上方向にむけます。この時、上に思いっきり振ったのち静止してください。
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step9.png" alt="">
+
+        <h5 class="fifth-title">◇発動結果</h5>
+        <p class="overview-text">
+          このように赤色にLEDが点灯すれば成功です。本家の場合は青白く発光しているので変更してみたい人はプログラムを改造してみてください。
+        </p>
+        <img class="flet-gui-img" src="img/product5_img/wearabl-step10.png" alt="">
+
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">6.END</h3>
+        <h5 class="end-title">楽しめましたでしょうか<br>これでこの作品は終わりです<br>お疲れさまでした。</h5>
+
+      </section>
+    </section>
+
+
+    <section id="contact">
+      <h2 class="sec-title">CONTACT</h2>
+      <div class="content">
+        <div class="contact-info">
+          <p>このサイトはRabyの作った自己満サイトです</p>
+          <p>
+            このサイトから学べることは少ないと思います。しかし、新しい発見の手助けと
+            なればと思います。新しい視点を得たり、興味を持つテーマを見つけたりするこ
+            とができるでしょう。是非、お楽しみいただければ幸いです。
+          </p>
+          <p>
+            また、このようなことをやってほしいという要望があれば、ぜひお知らせくださ
+            い。私たちは皆さまのご意見を大切にし、より良いサービスを提供できるよう努
+            めております。どんな小さなことでも構いませんので、皆さまのアイデアをお待
+            ちしております。
+          </p>
+        </div>
+
+        <div class="contact-form">
+          <form action="#">
+            <dl>
+              <dt><label for="name">Name:</label></dt>
+              <dd><input type="text" id="name" name="your-name"></dd>
+              <dt><label for="email">Mail:</label></dt>
+              <dd><input type="email" id="email" name="your-email"></dd>
+              <dt><label for="message">Message:</label></dt>
+              <dd><textarea id="message" name="your-message"></textarea></dd>
+            </dl>
+            <div class="button"><input type="submit" value="SEND"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="footer">
+    <p>&copy; Raby Lab</p>
+  </footer>
+</body>
+
+</html>

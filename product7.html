@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>Raby Lab</title>
+  <meta name="description" content="ソナーで周囲の距離を図れるようにする">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="img/header/Rabbit.png">
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/dracula.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script>
+    // ハイライトを実行
+    hljs.initHighlightingOnLoad();
+  </script>
+</head>
+
+<body>
+  <header id="header">
+    <h1 class="site-title">
+      <a href="index.html"><img src="img/header/RABY_LAB.png" alt="Sneakers"></a>
+    </h1>
+
+    <nav id="navi">
+      <ul class="nav-menu">
+        <li><a href="index.html">COLLECTION OF WORKS</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="self-introduction1.html">INTRODUCTION</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="company.html">COMPANY</a></li>
+      </ul>
+      <ul class="nav-sns">
+        <li><a href="https://twitter.com/" target="_blank">Twitter</a></li>
+        <li><a href="https://www.facebook.com/" target="_blank">facebook</a></li>
+        <li><a href="https://www.instagram.com/" target="_blank">instagram</a></li>
+      </ul>
+    </nav>
+
+    <div class="toggle_btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div id="mask"></div>
+  </header>
+
+  <main id="main">
+    <!-- 作った作品のプログラミング詳細 -->
+    <section id="explanation">
+      <h2 class="sec-title">ソナーで周囲の距離を図れるようにする</h2>
+      <section class="centered-section">
+        <img class="title_img" src="img/product7_img/product7.png" alt="">
+      </section>
+      <section class="centered-section">
+        <h3 class="ther-title">1.OVERVIEW</h3>
+        <p class="overview-text">
+          皆さんはレーダーをご存じでしょうか。遠くの船や魚群などの人の目では検知することができないものを
+          検知見ることができるものです。今回はそれを疑似的に体験できるような作品を作成します。
+        </p>
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">2.HARDWARE DESIGN</h3>
+        <h4 class="fort-title">～使用パーツ～</h4>
+        <img class="part-img" src="img/product7_img/part.png" alt="">
+
+        <h5 class="fifth-title">◇Arduinoをブレッドボードに接続</h5>
+        <p class="overview-text">
+          今回は私はArduino Unoボードを使用します。ボードをUSBケーブルでパソコンに接続し、電源を供給します。
+        </p>
+        <img class="part-img" src="img/product1_img/step1.png" alt="">
+
+        <h5 class="fifth-title">◇ブレッドボードに接続</h5>
+        <p class="overview-text">
+          ArduinoのGNDピンをブレッドボードのグランドレール(<span style="color: blue;">青色</span>)に接続します<br>
+          Arduinoの5Vピンをブレッドボードの電源レール(<span style="color: red;">赤色</span>)に接続します
+        </p>
+
+        <h5 class="fifth-title">◇サーボモーターを接続</h5>
+        <p class="overview-text">
+          サーボモーターには3本のワイヤーがついています。ブラウン、レッド、オレンジ<br>
+          ブラウンのワイヤーをグラウンドレールに接続します<br>
+          レッドのワイヤーを電源レールに接続します<br>
+          オレンジのワイヤーをArduinoのデジタルピン9に接続します(ジャンパーワイヤーを使って、ブレッドボード軽油で接続)
+        </p>
+        <img class="flet-gui-img" src="img/product7_img/hard/step1.png" alt="">
+        
+        <h5 class="fifth-title">◇ポテンショメータの接続</h5>
+        <p class="overview-text">
+          ポテンショメータをブレッドボーに配置する<br>
+          ポテンショメータの中央のピンをジャンパーワイヤーでArduinoのアナログ入力ピンA0に接続します<br>
+          ポテンショメータの左側のピンをジャンパーワイヤーでブレッドボードのグラウンドレール(<span style="color: blue;">青色</span>)に接続します<br>
+          ポテンショメータの右側のピンをジャンパーワイヤーでブレッドボードの電源レール(<span style="color: red;">赤色</span>)に接続します<br>
+        </p>
+        <img class="flet-gui-img" src="img/product7_img/hard/step2.png" alt="">
+
+        <h5 class="fifth-title">◇OLEDディスプレイの接続</h5>
+        <p class="overview-text">
+          OLEDディスプレイをブレッドボードに配置します<br>
+          OLEDディスプレイのGNDピンをブレッドボードのグランドレール(<span style="color: blue;">青色</span>)に接続します<br>
+          OLEDディスプレイのVCCピンをブレッドボードの電源レール(<span style="color: red;">赤色</span>)に接続します<br>
+          OLEDディスプレイのSCLピンをArduinoのA5ピンに接続します<br>
+          OLEDディスプレイのSDAピンをArduinoのA4ピンに接続します<br>
+        </p>
+        <img class="flet-gui-img" src="img/product7_img/hard/step3.png" alt="">
+
+        <h5 class="fifth-title">◇超音波センサー(HC-SR04)の接続</h5>
+        <p class="overview-text">
+          超音波センサーのGNDピンをブレッドボードのグランドレール(<span style="color: blue;">青色</span>)に接続します<br>
+          超音波センサーのVCCピンをブレッドボードの電源レール(<span style="color: red;">赤色</span>)に接続します<br>
+          超音波センサーのTRIGピンをArduinoのデジタルピン7に接続します。<br>
+          超音波センサーのECHOピンをArduinoのデジタルピン6に接続します<br>
+        </p>
+        <img class="flet-gui-img" src="img/product7_img/hard/step4.png" alt="">
+
+        <h5 class="fifth-title"></h5>
+
+        <h5 class="fifth-title">◇回路の確認</h5>
+        <ul class="overview-text">
+          <li><span style="color: orange;">LEDの極性</span>: LEDにはアノード（正極）とカソード（負極）があり、極性が逆になっていると点灯しません。
+            LEDの長い端子（アノード）が正しいピンに接続されているか確認してください。</li>
+          <li><span style="color: orange;">抵抗の値と接続</span>: 抵抗が正しい値（220Ωなど）であり、正しい位置に接続されているか確認します。
+            抵抗の値が間違っていると、LEDが壊れる可能性があります。</li>
+          <li><span style="color: orange;">ジャンプワイヤーの接続</span>: ジャンパーワイヤーが正しいピンに接続され、
+            しっかりと差し込まれているか確認してください。緩んでいると接触不良が発生します。</li>
+          <li><span style="color: orange;">ショート回路の確認</span>: ブレッドボード上でピン同士が直接接触している部分がないか確認します。
+            ショート回路が発生すると、Arduinoや他の部品が損傷する可能性があります。</li>
+          <li><span style="color: orange;">Arduinoボードの接続</span>: Arduinoボードが正しく接続され、電源が入っているか確認してください。
+            接続が緩んでいると正常に動作しません。</li>
+        </ul>
+
+      </section>
+
+      <!--Arduino-->
+      <section class="centered-section">
+        <h3 class="ther-title">3.ARDUINO CODING</h3>
+        <h4 class="fort-title">～コード内容～</h4>
+        <h5 class="fifth-title">◇ヘッダーファイルのインクルード</h5>
+        <p class="overview-text">
+          <span class="code-block">Servo.h</span>：サーボモーターを制御するためのライブラリ<br>
+          <span class="code-block">Wire.h</span>：I2C通信をサポートするライブラリ<br>
+          <span class="code-block">SPI.h</span>：SPI通信をサポートするライブラリ<br>
+          <span class="code-block">Adafruit_GFX.h</span>と<span class="code-block">Adafruit_SSD1306.h</span>：OLEDディスプレイを制御するためのAdafruitライブラリ
+        </p>
+        <div class="code-container">
+          <span class="file-name">soner-servo-display.ino</span>
+          <pre><code>
+#include &lt;Servo.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;SPI.h&gt;
+#include &lt;Adafruit_GFX.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇定義と初期化</h5>
+        <p class="overview-text">
+          OLEDディスプレイの設定(<span class="code-block">SCREEN_WIDTH</span>, <span class="code-block">SCREEN_HEIGHT</span>, <span class="code-block">OLED_RESET</span>, <span class="code-block">SCREEN_ADDRESS</span>)<br>
+          サーボモーターとポテンショメーターのピン番号と変数の設定(<span class="code-block">servoPin</span>, <span class="code-block">potPin</span>, <span class="code-block">potVal</span>)<br>
+          超音波センサーのピン番号と設定(<span class="code-block">trigPin</span>, <span class="code-block">echoPin</span>, <span class="code-block">MAX_DISTANCE</span>, <span class="code-block">timeOut</span>, <span class="code-block">soundVelocity</span>)<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">soner-servo-display.ino</span>
+          <pre><code>
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET -1
+#define SCREEN_ADDRESS 0x3C
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+Servo myservo;
+int servoPin = 3;
+int potPin = 0;
+int potVal;
+
+#define trigPin 12 
+#define echoPin 11 
+#define MAX_DISTANCE 200
+float timeOut = MAX_DISTANCE * 60;  
+int soundVelocity = 340;            
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇setup</h5>
+        <p class="overview-text">
+          <span class="code-block">myservo.attach(servoPin)</span>：サーボモーターをピンに接続<br>
+          OLEDディスプレイの初期化(<span class="code-block">display.begin</span>, <span class="code-block">display.display</span>, <span class="code-block">display.clearDisplay</span>)<br>
+          超音波センサーのピン設定(<span class="code-block">pinMode(trigPin, OUTPUT)</span>, <span class="code-block">pinMode(echoPin, INPUT)</span>)<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">soner-servo-display.ino</span>
+          <pre><code>
+void setup() {
+  myservo.attach(servoPin);
+  
+  if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for (;;);
+  }
+  display.display();
+  delay(2000); 
+  display.clearDisplay();
+
+  // Initialize sonar pins
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  Serial.begin(115200);
+  Serial.println("--- Started ---");
+}            
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇loop</h5>
+        <p class="overview-text">
+          ポテンショメーターの値を読み取り (<span class="code-block">analogRead</span>)、サーボの角度にマッピング (<span class="code-block">map</span>)<br>
+          サーボモーターを設定した角度に回転させる(<span class="code-block">myservo.write</span>)<br>
+          <span class="code-block">getSonar()</span>メソッドを呼び出して距離を取得<br>
+          OLEDディスプレイに角度と距離を表示する(<span class="code-block">display.clearDisplay</span>, <span class="code-block">display.setCursor</span>, <span class="code-block">display.print</span>)<br>
+          スペクトラムバーを描画する(<span class="code-block">drawSpectrumBars</span>)<br>
+          更新されたディスプレイを表示(<span class="code-block">display.display</span>)
+        </p>
+        <div class="code-container">
+          <span class="file-name">soner-servo-display.ino</span>
+          <pre><code>
+void loop() {
+  potVal = analogRead(potPin);
+  potVal = map(potVal, 0, 1023, 0, 180);
+  myservo.write(potVal);
+
+  float distance = getSonar();
+
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.print("Angle: ");
+  display.print(potVal);
+  display.print(" deg");
+
+  display.setCursor(0, 16);
+  display.print("Ping: ");
+  display.print(distance);
+  display.print(" cm");
+
+  drawSpectrumBars(potVal, distance);
+  
+  display.display();
+
+  delay(100);
+}                                  
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇getSonar</h5>
+        <p class="overview-text">
+          超音波パルスを送信(<span class="code-block">digitalWrite(trigPin, HIGH)</span>と<span class="code-block">digitalWrite(trigPin, LOW)</span>)<br>
+          エコー時間を測定(<span class="code-block">pulseIn</span>)<br>
+          距離を生産(<span class="code-block">distance = (float)pingTime * soundVelocity / 2 / 10000</span>)<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">soner-servo-display.ino</span>
+          <pre><code>
+float getSonar() { 
+  unsigned long pingTime; 
+  float distance; 
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10); 
+  digitalWrite(trigPin, LOW); 
+  pingTime = pulseIn(echoPin, HIGH, timeOut);
+  distance = (float)pingTime * soundVelocity / 2 / 10000;
+  return distance; 
+}             
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇drawSpectrumBars</h5>
+        <p class="overview-text">
+          角度と距離をバーの長さにマッピング(<span class="code-block">map</span>)<br>
+          角度バーを描画(<span class="code-block">display.fillRect</span>)<br>
+          距離バーを描画(<span class="code-block">display.fillRect</span>)<br>
+        </p>
+        <div class="code-container">
+          <span class="file-name">soner-servo-display.ino</span>
+          <pre><code>
+void drawSpectrumBars(int angle, float distance) {
+  int angleBarLength = map(angle, 0, 180, 0, SCREEN_WIDTH);
+  int distanceBarLength = map(distance, 0, MAX_DISTANCE, 0, SCREEN_WIDTH);
+
+  display.fillRect(0, 32, angleBarLength, 10, SSD1306_WHITE);
+
+  display.fillRect(0, 48, distanceBarLength, 10, SSD1306_WHITE);
+}                    
+          </code></pre>
+        </div>
+
+        <h5 class="fifth-title">◇完成版コード</h5>
+        <div class="code-container">
+          <details>
+            <summary><strong><span class="file-name-summa">soner-servo-display.ino</span></strong></summary>
+            <pre><code>
+#include &lt;Servo.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;SPI.h&gt;
+#include &lt;Adafruit_GFX.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET -1
+#define SCREEN_ADDRESS 0x3C
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+Servo myservo;
+int servoPin = 3;
+int potPin = 0;
+int potVal;
+
+#define trigPin 12 
+#define echoPin 11 
+#define MAX_DISTANCE 200
+float timeOut = MAX_DISTANCE * 60;  
+int soundVelocity = 340;
+
+void setup() {
+  myservo.attach(servoPin);  // attaches the servo on servoPin to the servo object
+
+  // Initialize OLED display
+  if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for (;;);
+  }
+  display.display();
+  delay(2000); 
+  display.clearDisplay();
+
+  // Initialize sonar pins
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  Serial.begin(115200);
+  Serial.println("--- Started ---");
+}
+
+void loop() {
+  potVal = analogRead(potPin);
+  potVal = map(potVal, 0, 1023, 0, 180);  // scale it to use it with the servo
+  myservo.write(potVal);
+
+  float distance = getSonar();
+
+  // Display servo angle and sonar distance on OLED
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.print("Angle: ");
+  display.print(potVal);
+  display.print(" deg");
+
+  display.setCursor(0, 16);
+  display.print("Ping: ");
+  display.print(distance);
+  display.print(" cm");
+
+  // Draw spectrum bars
+  drawSpectrumBars(potVal, distance);
+  
+  display.display();
+
+  delay(100);
+}
+
+float getSonar() { 
+  unsigned long pingTime; 
+  float distance; 
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10); 
+  digitalWrite(trigPin, LOW); 
+  pingTime = pulseIn(echoPin, HIGH, timeOut);
+  distance = (float)pingTime * soundVelocity / 2 / 10000;
+  return distance; 
+}
+
+void drawSpectrumBars(int angle, float distance) {
+  // Map the angle and distance to bar lengths
+  int angleBarLength = map(angle, 0, 180, 0, SCREEN_WIDTH);
+  int distanceBarLength = map(distance, 0, MAX_DISTANCE, 0, SCREEN_WIDTH);
+
+  // Draw the angle bar
+  display.fillRect(0, 32, angleBarLength, 10, SSD1306_WHITE);
+
+  // Draw the distance bar
+  display.fillRect(0, 48, distanceBarLength, 10, SSD1306_WHITE);
+}                             
+            </code></pre>
+          </details>
+
+        </div>
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">5.EXECUTION</h3>
+        <h4 class="fort-title">～コンパイル～</h4>
+        <p class="overview-text">
+          Arduino IDEに書いたプログラムをArduinoにコンパイルしましょう。
+        </p>
+        <h5 class="fifth-title">◇ポテンショメータで動かす</h5>
+        <p class="overview-text">
+          左に動かすとサーボが右に向きます
+        </p>
+        <img class="flet-gui-img" src="img/product7_img/start/left.png" alt="">
+        <p class="overview-text">
+          反対に右に動かすとサーボが左に向きます
+        </p>
+        <img class="flet-gui-img" src="img/product7_img/start/left.png" alt="">
+        <p class="overview-text">
+          あとは三角関数を使って半円状に描画す方法もあるのでプログラムを改造して見るのもいいかもしれません
+        </p>
+
+      </section>
+
+      <section class="centered-section">
+        <h3 class="ther-title">6.END</h3>
+        <h5 class="end-title">楽しめましたでしょうか<br>これでこの作品は終わりです<br>お疲れさまでした。</h5>
+
+      </section>
+    </section>
+
+
+    <section id="contact">
+      <h2 class="sec-title">CONTACT</h2>
+      <div class="content">
+        <div class="contact-info">
+          <p>このサイトはRabyの作った自己満サイトです</p>
+          <p>
+            このサイトから学べることは少ないと思います。しかし、新しい発見の手助けと
+            なればと思います。新しい視点を得たり、興味を持つテーマを見つけたりするこ
+            とができるでしょう。是非、お楽しみいただければ幸いです。
+          </p>
+          <p>
+            また、このようなことをやってほしいという要望があれば、ぜひお知らせくださ
+            い。私たちは皆さまのご意見を大切にし、より良いサービスを提供できるよう努
+            めております。どんな小さなことでも構いませんので、皆さまのアイデアをお待
+            ちしております。
+          </p>
+        </div>
+
+        <div class="contact-form">
+          <form action="#">
+            <dl>
+              <dt><label for="name">Name:</label></dt>
+              <dd><input type="text" id="name" name="your-name"></dd>
+              <dt><label for="email">Mail:</label></dt>
+              <dd><input type="email" id="email" name="your-email"></dd>
+              <dt><label for="message">Message:</label></dt>
+              <dd><textarea id="message" name="your-message"></textarea></dd>
+            </dl>
+            <div class="button"><input type="submit" value="SEND"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="footer">
+    <p>&copy; Raby Lab</p>
+  </footer>
+</body>
+
+</html>

@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+body {
+  color: #121212;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  background-repeat: repeat;
+}
+
 #explanation {
   max-width: 1240px;
   padding: 100px 16px 50px 16px;

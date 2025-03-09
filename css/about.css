@@ -2,8 +2,15 @@
 /*-------------------------------------------
 ABOUT
 -------------------------------------------*/
+body {
+  color: #121212;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  background-repeat: repeat;
+}
 
 #collection_of_works {
+  background-color: white;
   text-align: center;
   max-width: 1240px;
   margin: -50px auto 10px auto;

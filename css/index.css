@@ -7,6 +7,7 @@ body {
   color: #121212;
   font-size: 0.9rem;
   line-height: 1.7;
+  background-repeat: repeat;
 }
 a {
   color: #121212;
@@ -198,6 +199,7 @@ repeatで全ての要素に対して適用
   transition: all  0.3s ease;
   box-shadow: 0 0 8px 4px #ccc;
   border-radius: 10%;
+  background-color: white;
 }
 #collection_of_works .grid img {
   vertical-align: top;
